@@ -1,0 +1,34 @@
+header {
+	height: 4rem;
+	background-color: #2d507f !important;
+	justify-content: center;
+	align-items: center;
+}
+
+.head {
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem;
+	color: #f2e8c1;
+}
+
+.lgn {
+	outline: 0;
+	border: none;
+	background: transparent;
+    color: #f2e8c1;
+}
+.lgn:hover {
+	opacity: 0.7;
+	cursor: pointer;
+	border: 0.5px solid #f2e8c1;
+}
+.btn-container {
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #f2e8c1;
+	border-radius: 0.5rem;
+}
+div>button{
+    margin: 5px;
+}
