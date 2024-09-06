@@ -1,7 +1,7 @@
 import React from 'react';
 import './Styles/nav.css';
 
-export default function Navbar() {
+export default function Header() {
 	return (
 		<header className='head'>
 			<div>
