@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import './Styles/Form.css';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import LoginValidation from './LoginValidation';
+import './Styles/Form.css';
+import SignupValidation from './SignupValidation';
 import axios from 'axios';
 
-axios.defaults.withCredentials = true;
-
-export default function Login() {
+export default function SignUp() {
 	const [formData, setFormData] = useState({
+		name: '',
 		email: '',
 		password: '',
 	});
-
 	const navigate = useNavigate();
 	const [errors, setErrors] = useState({});
 
@@ -22,35 +20,23 @@ export default function Login() {
 		}));
 	};
 
-	useEffect(() => {
-		axios
-			.get('http://localhost:5000/dashboard')
-			.then((res) => {
-				if (res.data.valid) {
-					navigate('/dashboard');
-				}
-			})
-			.catch((err) => console.log(err));
-	}, [navigate]);
-
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const validationError = LoginValidation(formData);
+		const validationError = SignupValidation(formData);
 		setErrors(validationError);
-		if (!validationError.email && !validationError.password) {
+
+		if (
+			!validationError.name &&
+			!validationError.email &&
+			!validationError.password
+		) {
 			try {
-				const res = await axios.post('http://localhost:5000/login', formData);
-				if (res.data.Login) {
+				const res = await axios.post('http://localhost:5000/signup', formData);
+				if (res.data.Signup) {
 					navigate('/dashboard');
 				} else {
-					if (res.data.errMessage) {
-						alert('Incorrect Password or Email');
-					} else {
-						navigate('/dashboard');
-					}
-					
+					alert('An account already exists ');
 				}
-				
 				console.log(res);
 			} catch (err) {
 				console.log(err);
@@ -63,19 +49,33 @@ export default function Login() {
 	return (
 		<div className='d-flex justify-content-center align-items-center vh-100 formContainer'>
 			<div className='p-3 rounded w-100'>
-				<form action='/login' onSubmit={handleSubmit}>
-					<h2>Log In</h2>
+				<form action='/signup' onSubmit={handleSubmit} method='POST'>
+					<h2>Sign-Up</h2>
+					<div className='mb-3'>
+						<label htmlFor='name'>
+							<strong>Name</strong>
+						</label>
+						<input
+							type='text'
+							onChange={handleInput}
+							placeholder='Enter your name'
+							className='form-control '
+							name='name'
+							id='name'
+						/>
+						{errors.name && <span className='text-danger'>{errors.name}</span>}
+					</div>
 					<div className='mb-3'>
 						<label htmlFor='email'>
 							<strong>Email</strong>
 						</label>
 						<input
 							type='email'
+							onChange={handleInput}
 							placeholder='Enter Email'
+							className='form-control '
 							name='email'
 							id='email'
-							className='form-control '
-							onChange={handleInput}
 						/>
 						{errors.email && (
 							<span className='text-danger'>{errors.email}</span>
@@ -87,26 +87,24 @@ export default function Login() {
 						</label>
 						<input
 							type='password'
+							onChange={handleInput}
 							placeholder='Enter Password'
+							className='form-control '
 							name='password'
 							id='password'
-							className='form-control '
-							onChange={handleInput}
 						/>
 						{errors.password && (
 							<span className='text-danger'>{errors.password}</span>
 						)}
 					</div>
 					<button type='submit' className='btn w-100 bton'>
-						{' '}
-						Log in
+						Sign-Up
 					</button>
-					<p>Don't have any Account?</p>
+					<p>Have you already an Account?</p>
 					<Link
-						to='/signup'
-						className='btn btn-default border w-100  text-decoration-none'>
-						{' '}
-						Create Account
+						to='/login'
+						className='btn btn-default border w-100 text-decoration-none'>
+						Login
 					</Link>
 				</form>
 			</div>

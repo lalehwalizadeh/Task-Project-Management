@@ -1,16 +1,22 @@
 import React from 'react';
 import './Styles/nav.css';
+import { Link } from 'react-router-dom';
+
 
 export default function Header() {
 	return (
 		<header className='head'>
+
 			<div>
 				<div className='logo'></div>
 				<h3>TPM</h3>
 			</div>
 			<div className='btn-container'>
-				<button className='lgn'>Log in</button>
-				<button style={{background:"#f2e8c1"}}>Sign Up</button>
+				<nav>
+					<Link className='regs' to="/SignUp"> Registration</Link>
+				</nav>
+				{/* <a className='lgn' href='/Login'>Log in</a>
+				<a className='snp' href='/SignUp'>Sign Up</a> */}
 			</div>
 		</header>
 	);
