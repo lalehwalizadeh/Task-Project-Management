@@ -26,6 +26,18 @@ export default function Dashboard() {
 		checkAuth();
 	}, [navigate]);
 
+	const handleLogout = async () => {
+		const confirmLogout = window.confirm('Are you sure you want to Log out?');
+		if (confirmLogout) {
+			try {
+				await axios.get('http://localhost:5000/logout');
+				navigate('/'); // Redirect to the home page after log out
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	};
+
 	const style = {
 		border: '1px solid ',
 		borderRadius: '5px',
@@ -40,7 +52,15 @@ export default function Dashboard() {
 			</header>
 			<div className='content'>
 				<aside style={style}> your account </aside>
-				<section style={style}> Welcome {name}</section>
+				<section style={style}>
+					{' '}
+					Welcome {name}
+					<button onClick={handleLogout} className='btn'>
+						{' '}
+						Log Out{' '}
+					</button>
+				</section>
+				{/* <Link to='/logout'> Log Out </Link> */}
 			</div>
 		</div>
 	);

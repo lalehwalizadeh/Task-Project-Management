@@ -97,13 +97,8 @@ export default function Login() {
 						{' '}
 						Log in
 					</button>
-					<p>Don't have any Account?</p>
-					<Link
-						to='/signup'
-						className='btn btn-default border w-100  text-decoration-none'>
-						{' '}
-						Create Account
-					</Link>
+					<p className='mrg-tp'>Don't have any Account? <Link to='/signup'>Create Account</Link></p>
+					
 				</form>
 			</div>
 		</div>

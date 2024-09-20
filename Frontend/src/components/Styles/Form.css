@@ -19,9 +19,12 @@
 	height: 500px;
 }
 
-.formContainer h3{
-    line-height: 3rem;
+.formContainer h2{
+    margin-bottom: 3rem;
+	line-height: 3rem;
     border-bottom: 1px solid var(--dark-color);
+	text-align: center;
+	align-items: center;
 }
 
 input:focus {
@@ -43,4 +46,10 @@ form .bton {
     opacity: 0.9;
     transform: translateY(3px);
     transition: all 0.3s ease-in-out;
+}
+
+.mrg-tp{
+	margin-top: 1rem;
+	text-align: center;
+	align-items: center;
 }

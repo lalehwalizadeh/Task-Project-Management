@@ -39,17 +39,16 @@ export default function SignUp() {
 				}
 			} catch (err) {
 				console.log(err);
-				alert('server error, please try again')
+				alert('server error, please try again');
 			}
 		}
-
 	};
 
 	return (
 		<div className='d-flex justify-content-center align-items-center vh-100 formContainer'>
 			<div className='p-3 rounded w-100'>
 				<form action='/signup' onSubmit={handleSubmit} method='POST'>
-					<h2>Sign-Up</h2>
+					<h2>Sign Up</h2>
 					<div className='mb-3'>
 						<label htmlFor='name'>
 							<strong>Name</strong>
@@ -99,12 +98,12 @@ export default function SignUp() {
 					<button type='submit' className='btn w-100 bton'>
 						Sign-Up
 					</button>
-					<p>Have you already an Account?</p>
+
+					<p className='mrg-tp'>Have you already an Account? <Link to='/login'>Login</Link> </p>
+					
 					<Link
-						to='/login'
-						className='btn btn-default border w-100 text-decoration-none'>
-						Login
-					</Link>
+						to='/google'
+						className='btn btn-default border w-100 text-decoration-none'> Login with your google account</Link>
 				</form>
 			</div>
 		</div>
