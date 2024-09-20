@@ -2,10 +2,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import pg from 'pg';
 import cors from 'cors';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
+import passport from 'passport';
 import bcrypt, { hash } from 'bcrypt';
 import env from 'dotenv';
 
@@ -22,22 +21,24 @@ app.use(
 		credentials: true,
 	})
 );
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
 	session({
 		secret: process.env.AWS_ACCESS_KEY, // a secret key use to encrypt the session cookie
 		resave: false,
-		saveUninitialized: false,
+		saveUninitialized: true,
 		cookie: {
 			secure: false,
-			maxAge: 1000 * 60 * 24,
+			maxAge: 1000 * 60 * 60 * 24,
 		}, // set the session cookie properties
 	})
 );
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
+// Database information
 const db = new pg.Client({
 	user: process.env.USER,
 	host: process.env.HOST,
@@ -49,6 +50,7 @@ const db = new pg.Client({
 db.connect();
 
 app.get('/dashboard', (req, res) => {
+	
 	if (req.session.username) {
 		return res.json({ valid: true, username: req.session.username });
 	} else {
@@ -68,12 +70,13 @@ app.post('/signup', async (req, res) => {
 		if (checkAuth.rows.length > 0) {
 			return res.json({ Signup: false });
 		} else {
-			bcrypt.hash(password, saltRound, async (err, hash) => {
-				await db.query(
-					'INSERT INTO users(email,name,password) VALUES ($1, $2, $3)',
-					[email, name, hash]
-				);
-			});
+			const hash = await bcrypt.hash(password, saltRound);
+
+			await db.query(
+				'INSERT INTO users(email,name,password) VALUES ($1, $2, $3)',
+				[email, name, hash]
+			);
+
 			return res.json({ Signup: true });
 		}
 	} catch (err) {
@@ -84,8 +87,7 @@ app.post('/signup', async (req, res) => {
 
 // Loging in reout
 app.post('/login', async (req, res) => {
-	const email = req.body.email;
-	const loginPassword = req.body.password;
+	const { email, password } = req.body;
 
 	try {
 		const result = await db.query('SELECT * FROM users WHERE email = $1', [
@@ -94,16 +96,14 @@ app.post('/login', async (req, res) => {
 
 		if (result.rows.length > 0) {
 			const user = result.rows[0];
-			const dbPassword = user.password;
-			bcrypt.compare(loginPassword, dbPassword, (err, result) => {
-				// if (loginPassword == dbPassword) {
+			const isMatch = await bcrypt.compare(password, user.password);
+
+			if (isMatch) {
 				req.session.username = user.name;
-				if (result) {
-					return res.json({ Login: true });
-				} else {
-					return res.json({ errMessage: true });
-				}
-			});
+				return res.json({ Login: true });
+			} else {
+				return res.json({ errMessage: true });
+			}
 		} else {
 			return res.json({ Login: false });
 		}

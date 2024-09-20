@@ -43,21 +43,17 @@ export default function Login() {
 				if (res.data.Login) {
 					navigate('/dashboard');
 				} else {
-					if (res.data.errMessage) {
-						alert('Incorrect Password or Email');
-					} else {
-						navigate('/dashboard');
-					}
-					
+					alert(
+						res.data.errMessage
+							? 'Incorrect Password or Email'
+							: 'Login failed!'
+					);
 				}
-				
-				console.log(res);
 			} catch (err) {
 				console.log(err);
+				alert('Server error, please try again.');
 			}
 		}
-
-		console.log(formData);
 	};
 
 	return (

@@ -10,16 +10,21 @@ export default function Dashboard() {
 	axios.defaults.withCredentials = true;
 
 	useEffect(() => {
-		axios
-			.get('http://localhost:5000/dashboard')
-			.then((res) => {
+		const checkAuth = async () => {
+			try {
+				const res = await axios.get('http://localhost:5000/dashboard');
 				if (res.data.valid) {
 					setName(res.data.username);
-				} 
-			
-			})
-			.catch((err) => console.log(err));
-	},[navigate]);
+				} else {
+					navigate('/login');
+				}
+			} catch (err) {
+				console.log(err);
+				navigate('/login'); // redirect to the Login on err
+			}
+		};
+		checkAuth();
+	}, [navigate]);
 
 	const style = {
 		border: '1px solid ',

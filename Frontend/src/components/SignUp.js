@@ -35,15 +35,14 @@ export default function SignUp() {
 				if (res.data.Signup) {
 					navigate('/dashboard');
 				} else {
-					alert('An account already exists ');
+					alert(' This  account is already existed ');
 				}
-				console.log(res);
 			} catch (err) {
 				console.log(err);
+				alert('server error, please try again')
 			}
 		}
 
-		console.log(formData);
 	};
 
 	return (
