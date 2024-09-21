@@ -62,11 +62,11 @@ app.get('/google/dashboard',
     failureRedirect: '/login'
   }),
   (req, res) => {
-    req.session.username = req.user.name; // Store user info in session
+    req.session.username = req.user.name; // Storing user info in session
     res.redirect('/dashboard'); // Redirect to dashboard after successful login
 });
 
-// Registration route
+// Registration 
 app.post('/signup', async (req, res) => {
   const { email, name, password } = req.body;
 
@@ -86,7 +86,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// Login route
+// Login 
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 

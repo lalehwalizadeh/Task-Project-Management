@@ -53,3 +53,8 @@ form .bton {
 	text-align: center;
 	align-items: center;
 }
+.back{
+	position: absolute;
+	top: 0;
+	left: 0;
+}

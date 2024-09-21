@@ -57,50 +57,58 @@ export default function Login() {
 	};
 
 	return (
-		<div className='d-flex justify-content-center align-items-center vh-100 formContainer'>
-			<div className='p-3 rounded w-100'>
-				<form action='/login' onSubmit={handleSubmit}>
-					<h2>Log In</h2>
-					<div className='mb-3'>
-						<label htmlFor='email'>
-							<strong>Email</strong>
-						</label>
-						<input
-							type='email'
-							placeholder='Enter Email'
-							name='email'
-							id='email'
-							className='form-control '
-							onChange={handleInput}
-						/>
-						{errors.email && (
-							<span className='text-danger'>{errors.email}</span>
-						)}
-					</div>
-					<div className='mb-3'>
-						<label htmlFor='password'>
-							<strong>Password</strong>
-						</label>
-						<input
-							type='password'
-							placeholder='Enter Password'
-							name='password'
-							id='password'
-							className='form-control '
-							onChange={handleInput}
-						/>
-						{errors.password && (
-							<span className='text-danger'>{errors.password}</span>
-						)}
-					</div>
-					<button type='submit' className='btn w-100 bton'>
-						{' '}
-						Log in
-					</button>
-					<p className='mrg-tp'>Don't have any Account? <Link to='/signup'>Create Account</Link></p>
-					
-				</form>
+		<>
+			<Link to='/signup' className='back'>
+				
+				🔙
+			</Link>
+
+			<div className='d-flex justify-content-center align-items-center vh-100 formContainer'>
+				<div className='p-3 rounded w-100'>
+					<form action='/login' onSubmit={handleSubmit}>
+						<h2>Log In</h2>
+						<div className='mb-3'>
+							<label htmlFor='email'>
+								<strong>Email</strong>
+							</label>
+							<input
+								type='email'
+								placeholder='Enter Email'
+								name='email'
+								id='email'
+								className='form-control '
+								onChange={handleInput}
+							/>
+							{errors.email && (
+								<span className='text-danger'>{errors.email}</span>
+							)}
+						</div>
+						<div className='mb-3'>
+							<label htmlFor='password'>
+								<strong>Password</strong>
+							</label>
+							<input
+								type='password'
+								placeholder='Enter Password'
+								name='password'
+								id='password'
+								className='form-control '
+								onChange={handleInput}
+							/>
+							{errors.password && (
+								<span className='text-danger'>{errors.password}</span>
+							)}
+						</div>
+						<button type='submit' className='btn w-100 bton'>
+							{' '}
+							Log in
+						</button>
+						<p className='mrg-tp'>
+							Don't have any Account? <Link to='/signup'>Create Account</Link>
+						</p>
+					</form>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }

@@ -1,3 +1,4 @@
+import Header from './Header';
 import React, { useEffect, useState } from 'react';
 import './Styles/Tasks.css';
 import axios from 'axios';
@@ -38,30 +39,23 @@ export default function Dashboard() {
 		}
 	};
 
-	const style = {
-		border: '1px solid ',
-		borderRadius: '5px',
-		margin: '20px',
-		padding: '10px',
-	};
+	
 
 	return (
-		<div style={{ maxHeight: '100vh' }}>
-			<header>
-				<h1> Manage your Tasks and Projects!</h1>
-			</header>
-			<div className='content'>
-				<aside style={style}> your account </aside>
-				<section style={style}>
-					{' '}
-					Welcome {name}
-					<button onClick={handleLogout} className='btn'>
-						{' '}
-						Log Out{' '}
-					</button>
-				</section>
-				{/* <Link to='/logout'> Log Out </Link> */}
+		<>
+			<Header />
+			<div className='dashboard-container'>
+				<div className='content'>
+					<aside >your account </aside>
+					<section >
+						<h1> Manage your Tasks and Projects!</h1> Welcome {name}
+						<button onClick={handleLogout} className='btn'>
+							{' '}
+							Log Out{' '}
+						</button>
+					</section>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }

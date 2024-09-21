@@ -1,10 +1,18 @@
-body{
-    color:#4d5361;
+body {
+	color: #4d5361;
 }
 
-.home-crt-btn{
-    display: grid;
-    margin: 2rem;
-    width: fit-content;
+.home-crt-btn {
+	display: grid;
+	margin: 2rem;
+	width: fit-content;
+}
 
+.home-container {
+	margin: 1rem;
+	padding: 1rem;
+	text-align: justify;
+}
+.home-container h4 {
+	margin-top: 3rem;
 }
