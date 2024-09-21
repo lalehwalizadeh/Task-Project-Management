@@ -2,7 +2,7 @@ import Header from './Header';
 import React, { useEffect, useState } from 'react';
 import './Styles/Tasks.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
 	const [name, setName] = useState('');
@@ -39,26 +39,22 @@ export default function Dashboard() {
 		}
 	};
 
-	const handleDeleteAccount = () => {
-		const confirmDelete = window.confirm('Are you sure you want to delete your account?');
+	const handleDeleteAccount = async () => {
+		const confirmDelete = window.confirm(
+			'Are you sure you want to delete your account?'
+		);
 		if (confirmDelete) {
-			fetch('/delete-account', {
-				method: 'DELETE',
-				credentials:'include' //for sending session and cookie
-			})
-				.then(res => res.json())
-				.then(data => {
-					if (data.message === 'Account deleted successfully') {
-						alert('your account has been deleted.');
-						window.location.href ='/'
-					} else {
-						alert('Error deleting account')
+
+			try {
+				const res = await axios.delete('http://localhost:5000/delete-account',{withCredentials:true});
+				if (res.data.dltMessage) {
+					navigate('/')
 				}
-				}).catch(err => {
+			} catch (err) {
 				console.log(err);
-			})
+			}
 		}
-	}
+	};
 	return (
 		<>
 			<Header />
@@ -66,8 +62,11 @@ export default function Dashboard() {
 				<div className='content'>
 					<aside>
 						your account
-						<button onClick={handleLogout} className='btn'> Log Out</button>
-						<button onClick={handleDeleteAccount}>Delete Account</button>
+						<button  onClick={handleLogout} className='btn'>
+							{' '}
+							Log Out
+						</button>
+						<button  onClick={handleDeleteAccount} className='btn'>Delete Account</button>
 					</aside>
 					<section>
 						<h1> Manage your Tasks and Projects!</h1> Welcome {name}

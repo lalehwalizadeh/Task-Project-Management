@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(
 	cors({
 		origin: ['http://localhost:3000'],
-		methods: ['POST', 'GET'],
+		methods: ['POST', 'GET','DELETE','PUT'],
 		credentials: true,
 	})
 );
@@ -175,25 +175,26 @@ app.get('/logout', (req, res) => {
 });
 
 // Delete account Rout:
-// app.delete('/delete-account', async (req, res) => {
-//   if (!req.session.username) {
-//     return res.status(401).json({ message: 'Unauthorized' });
-//   }
-//   const email = req.user.email;
-//   try {
-//     await db.query('DELETE FROM uses WHERE email =$1', [email]);
-//     req.session.destroy(err => {
-//       if (err) {
-//         console.log(err);
-//         return res.json({ message: 'Server Error' });
-//       }
-//       return res.json({ message: 'Account deleted successfully' });
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.json({message:'Server'})
-//   }
-// })
+app.delete('/delete-account', async (req, res) => {
+	if (!req.session.username) {
+	  console.log('user not authenticated');
+    return res.json({ message: 'Unauthorized' });
+  }
+  const email = req.session.username;
+  try {
+	  await db.query('DELETE FROM users WHERE email =$1', [email]);
+    req.session.destroy(err => {
+      if (err) {
+        console.log(err);
+        return res.json({ message: 'Server Error' });
+      }
+		return res.json({ dltMessage: true });
+    });
+  } catch (err) {
+    console.log(err);
+    res.json({message:'Server Error'})
+  }
+})
 
 
 app.listen(PORT, () => {
