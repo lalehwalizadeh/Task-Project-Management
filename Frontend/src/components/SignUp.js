@@ -108,7 +108,7 @@ export default function SignUp() {
 						</p>
 
 						<Link
-							to='/google'
+							to='/auth/google'
 							className='btn btn-default border w-100 text-decoration-none'>
 							{' '}
 							Login with your google account
