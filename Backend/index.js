@@ -6,7 +6,7 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import bcrypt from 'bcrypt';
-import {Strategy as GoogleStrategy} from 'passport-google-oauth2';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import env from 'dotenv';
 
 env.config();
@@ -52,7 +52,6 @@ db.connect();
 app.get('/dashboard', (req, res) => {
 	if (req.session.user) {
 		return res.json({ valid: true, username: req.session.user.name });
-
 	}
 	return res.json({ valid: false });
 });
@@ -117,7 +116,7 @@ app.post('/login', async (req, res) => {
 			if (isMatch) {
 				req.session.user = {
 					name: user.name,
-					email:user.email
+					email: user.email,
 				};
 				return res.json({ Login: true });
 			}
@@ -141,7 +140,6 @@ passport.use(
 			userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
 		},
 		async (accessToken, refreshToken, profile, cb) => {
-			console.log(profile);
 			try {
 				const result = await db.query('SELECT * FROM users WHERE email = $1', [
 					profile.email,
@@ -155,8 +153,8 @@ passport.use(
 				} else {
 					req.session.user = {
 						name: result.rows[0].name,
-						email:result.rows[0].email
-					}
+						email: result.rows[0].email,
+					};
 					return cb(null, result.rows[0]);
 				}
 			} catch (err) {
@@ -185,14 +183,12 @@ app.get('/logout', (req, res) => {
 
 app.delete('/delete-account', async (req, res) => {
 	if (!req.session.user) {
-		console.log('user not authenticated');
 		return res.json({ message: 'Unauthorized' });
 	}
 	const email = req.session.user.email;
 	try {
-		
 		await db.query('DELETE FROM users WHERE email =$1', [email]);
-		console.log('object');
+
 		req.session.destroy((err) => {
 			if (err) {
 				console.log(err);
