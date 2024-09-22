@@ -35,13 +35,17 @@ export default function SignUp() {
 				if (res.data.Signup) {
 					navigate('/dashboard');
 				} else {
-					alert(' This  account is already existed ');
+					alert('This account already exists');
 				}
 			} catch (err) {
 				console.log(err);
-				alert('server error, please try again');
+				alert('Server error, please try again');
 			}
 		}
+	};
+
+	const handleGoogleLogin = () => {
+		window.open('http://localhost:5000/auth/google', '_self');
 	};
 
 	return (
@@ -107,12 +111,13 @@ export default function SignUp() {
 							Have you already an Account? <Link to='/login'>Login</Link>{' '}
 						</p>
 
-						<Link
-							to='/auth/google'
-							className='btn btn-default border w-100 text-decoration-none'>
-							{' '}
-							Login with your google account
-						</Link>
+						<button
+							type='button'
+							className='btn btn-default border w-100 text-decoration-none'
+							onClick={handleGoogleLogin}
+						>
+							Login with your Google account
+						</button>
 					</form>
 				</div>
 			</div>
