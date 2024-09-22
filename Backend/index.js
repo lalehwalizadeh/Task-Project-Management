@@ -50,8 +50,8 @@ const db = new pg.Client({
 db.connect();
 
 app.get('/dashboard', (req, res) => {
-	if (req.session.username) {
-		return res.json({ valid: true, username: req.session.username });
+	if (req.session.user) {
+		return res.json({ valid: true, username: req.session.user.name });
 
 	}
 	return res.json({ valid: false });
@@ -115,7 +115,10 @@ app.post('/login', async (req, res) => {
 			const isMatch = await bcrypt.compare(password, user.password);
 
 			if (isMatch) {
-				req.session.username = user.email;
+				req.session.user = {
+					name: user.name,
+					email:user.email
+				};
 				return res.json({ Login: true });
 			}
 			return res.json({ errMessage: true });
@@ -150,6 +153,10 @@ passport.use(
 					);
 					return cb(null, newUser.rows[0]);
 				} else {
+					req.session.user = {
+						name: result.rows[0].name,
+						email:result.rows[0].email
+					}
 					return cb(null, result.rows[0]);
 				}
 			} catch (err) {
@@ -177,11 +184,11 @@ app.get('/logout', (req, res) => {
 // Delete account Rout:
 
 app.delete('/delete-account', async (req, res) => {
-	if (!req.session.username) {
+	if (!req.session.user) {
 		console.log('user not authenticated');
 		return res.json({ message: 'Unauthorized' });
 	}
-	const email = req.session.username;
+	const email = req.session.user.email;
 	try {
 		
 		await db.query('DELETE FROM users WHERE email =$1', [email]);
