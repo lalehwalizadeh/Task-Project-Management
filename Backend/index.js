@@ -70,7 +70,10 @@ app.get(
 		failureRedirect: '/login',
 	}),
 	(req, res) => {
-		req.session.username = req.user.name; // Storing user info in session
+		req.session.user = {// Storing user info in session
+			name:user.name, 
+			email:user.email
+		}
 		res.json({ googleLogin: true }); // Redirect to dashboard after successful login
 	}
 );
