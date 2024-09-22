@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(
 	cors({
 		origin: ['http://localhost:3000'],
-		methods: ['POST', 'GET','DELETE','PUT'],
+		methods: ['POST', 'GET', 'DELETE', 'PUT'],
 		credentials: true,
 	})
 );
@@ -72,7 +72,7 @@ app.get(
 	}),
 	(req, res) => {
 		req.session.username = req.user.name; // Storing user info in session
-    res.json({googleLogin:true}); // Redirect to dashboard after successful login
+		res.json({ googleLogin: true }); // Redirect to dashboard after successful login
 	}
 );
 
@@ -115,7 +115,7 @@ app.post('/login', async (req, res) => {
 			const isMatch = await bcrypt.compare(password, user.password);
 
 			if (isMatch) {
-				req.session.username = user.name;
+				req.session.username = user.email;
 				return res.json({ Login: true });
 			}
 			return res.json({ errMessage: true });
@@ -146,7 +146,7 @@ passport.use(
 				if (result.rows.length === 0) {
 					const newUser = await db.query(
 						'INSERT INTO users (email, name, password) VALUES ($1, $2, $3)',
-						[profile.email,profile.displayName, 'google']
+						[profile.email, profile.displayName, 'google']
 					);
 					return cb(null, newUser.rows[0]);
 				} else {
@@ -175,27 +175,29 @@ app.get('/logout', (req, res) => {
 });
 
 // Delete account Rout:
+
 app.delete('/delete-account', async (req, res) => {
 	if (!req.session.username) {
-	  console.log('user not authenticated');
-    return res.json({ message: 'Unauthorized' });
-  }
-  const email = req.session.username;
-  try {
-	  await db.query('DELETE FROM users WHERE email =$1', [email]);
-    req.session.destroy(err => {
-      if (err) {
-        console.log(err);
-        return res.json({ message: 'Server Error' });
-      }
-		return res.json({ dltMessage: true });
-    });
-  } catch (err) {
-    console.log(err);
-    res.json({message:'Server Error'})
-  }
-})
-
+		console.log('user not authenticated');
+		return res.json({ message: 'Unauthorized' });
+	}
+	const email = req.session.username;
+	try {
+		
+		await db.query('DELETE FROM users WHERE email =$1', [email]);
+		console.log('object');
+		req.session.destroy((err) => {
+			if (err) {
+				console.log(err);
+				return res.json({ message: 'Server Error' });
+			}
+			return res.json({ dltMessage: true });
+		});
+	} catch (err) {
+		console.log(err);
+		res.json({ message: 'Server Error' });
+	}
+});
 
 app.listen(PORT, () => {
 	console.log('Server started on port', PORT);
