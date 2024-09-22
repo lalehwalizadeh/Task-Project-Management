@@ -32,14 +32,7 @@ export default function Login() {
 			})
 			.catch((err) => console.log(err));
 	}, [navigate]);
-	// useEffect(() => {
-	// 	axios.get('http://localhost:5000/auth/google/dashboard')
-	// 		.then((res => {
-	// 			if (res.data.googleLogin) {
-	// 			navigate('/dashboard')
-	// 		}
-	// 	}))
-	// },[navigate])
+	
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();

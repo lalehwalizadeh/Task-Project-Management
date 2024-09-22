@@ -64,19 +64,28 @@ app.get(
 	})
 );
 
-app.get(
-	'/auth/google/dashboard',
-	passport.authenticate('google', {
-		failureRedirect: '/login',
-	}),
-	(req, res) => {
-		req.session.user = {// Storing user info in session
-			name:user.name, 
-			email:user.email
-		}
-		res.json({ googleLogin: true }); // Redirect to dashboard after successful login
+// app.get(
+// 	'/auth/google/dashboard',
+// 	passport.authenticate('google', {
+// 		failureRedirect: '/login',
+// 	}),
+// 	(req, res) => {
+// 		req.session.user = {// Storing user info in session
+// 			name: req.user.displayName,
+// 			email:req.user.email
+// 		};
+// 		  res.json({ googleLogin: true }); // Redirect to dashboard after successful login
+// 		// res.redirect('http://localhost:5000/auth/google/dashboard')
+// 	}
+// );
+
+app.get('/auth/google/dashboard', (req, res) => {
+	if (req.isAuthenticated()){
+		res.json({ googleLogin: true });
+	} else {
+		res.json({googleLogin:false})
 	}
-);
+})
 
 // Registration
 app.post('/signup', async (req, res) => {
@@ -139,24 +148,25 @@ passport.use(
 		{
 			clientID: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-			callbackURL: 'http://localhost:3000/auth/google/dashboard', // Use the correct port here
+			callbackURL: 'http://localhost:5000/auth/google/dashboard', // Use the correct port here
 			userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
 		},
 		async (accessToken, refreshToken, profile, cb) => {
 			try {
+				const email = profile.emails[0].value;
 				const result = await db.query('SELECT * FROM users WHERE email = $1', [
-					profile.email,
+					email,
 				]);
 				if (result.rows.length === 0) {
 					const newUser = await db.query(
-						'INSERT INTO users (email, name, password) VALUES ($1, $2, $3)',
-						[profile.email, profile.displayName, 'google']
+						'INSERT INTO users (email, name, password) VALUES ($1, $2, $3) RETURNING *',
+						[email, profile.displayName, 'google']
 					);
 					return cb(null, newUser.rows[0]);
 				} else {
 					req.session.user = {
-						name: result.rows[0].name,
-						email: result.rows[0].email,
+						name: result.rows[0],
+						email: result.rows[0],
 					};
 					return cb(null, result.rows[0]);
 				}

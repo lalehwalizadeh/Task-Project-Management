@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Styles/Form.css';
 import SignupValidation from './SignupValidation';
@@ -48,9 +48,40 @@ export default function SignUp() {
 		window.open('http://localhost:5000/auth/google', '_self');
 	};
 
+
+	// useEffect(() => {
+	// 	const checkGoogleLogin = async () => {
+	// 		try {
+	// 			const res = await axios.get(
+	// 				'http://localhost:3000/auth/google/dashboard'
+	// 			);
+	// 			if (res.data.googleLogin) {
+	// 				navigate('/dashboard');
+	// 			}
+	// 		} catch (err) {
+	// 			console.log(err);
+	// 		}
+	// 	};
+	// 	checkGoogleLogin();
+	// }, [navigate]);
+
+	useEffect(() => {
+		axios.get('http://localhost:5000/auth/google/dashboard')
+			.then(res => {
+				if(res.data.googleLogin)
+				navigate('/dashboard')
+			})
+			.catch(err => {
+			console.log(err);
+		})
+	},[navigate])
+
 	return (
 		<>
-			<Link to='/' className='back'> 🔙</Link>
+			<Link to='/' className='back'>
+				{' '}
+				🔙
+			</Link>
 			<div className='d-flex justify-content-center align-items-center vh-100 formContainer'>
 				<div className='p-3 rounded w-100'>
 					<form action='/signup' onSubmit={handleSubmit} method='POST'>
@@ -114,8 +145,7 @@ export default function SignUp() {
 						<button
 							type='button'
 							className='btn btn-default border w-100 text-decoration-none'
-							onClick={handleGoogleLogin}
-						>
+							onClick={handleGoogleLogin}>
 							Login with your Google account
 						</button>
 					</form>
