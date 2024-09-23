@@ -48,12 +48,11 @@ export default function SignUp() {
 		window.open('http://localhost:5000/auth/google', '_self');
 	};
 
-
 	// useEffect(() => {
 	// 	const checkGoogleLogin = async () => {
 	// 		try {
 	// 			const res = await axios.get(
-	// 				'http://localhost:3000/auth/google/dashboard'
+	// 				'http://localhost:5000/auth/google/dashboard'
 	// 			);
 	// 			if (res.data.googleLogin) {
 	// 				navigate('/dashboard');
@@ -66,15 +65,21 @@ export default function SignUp() {
 	// }, [navigate]);
 
 	useEffect(() => {
-		axios.get('http://localhost:5000/auth/google/dashboard')
-			.then(res => {
-				if(res.data.googleLogin)
-				navigate('/dashboard')
+		axios
+			.get('http://localhost:5000/auth/google/dashboard', {
+				withCredentials: true,
 			})
-			.catch(err => {
-			console.log(err);
-		})
-	},[navigate])
+			.then((res) => {
+				if (res.data.googleLogin) {
+					navigate('/dashboard');
+				}
+			})
+			.catch((err) => {
+				console.log(err, 'what is the error');
+				console.log('Error message:',err.response);
+				console.log('error message:', err.message);
+			});
+	}, [navigate]);
 
 	return (
 		<>

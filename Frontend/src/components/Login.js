@@ -42,12 +42,13 @@ export default function Login() {
 			try {
 				const res = await axios.post('http://localhost:5000/login', formData);
 				if (res.data.Login) {
-					navigate('/dashboard');
+					console.log(res.data.Login);
+					navigate('/dashboard/');
 				} else {
 					alert(
 						res.data.errMessage
 							? 'Incorrect Password or Email'
-							: 'Login failed!'
+							: 'Login failed , this account is not exist please create account!'
 					);
 				}
 			} catch (err) {

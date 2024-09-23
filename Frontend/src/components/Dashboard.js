@@ -2,7 +2,7 @@ import Header from './Header';
 import React, { useEffect, useState } from 'react';
 import './Styles/Tasks.css';
 import axios from 'axios';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
 	const [name, setName] = useState('');
@@ -16,6 +16,7 @@ export default function Dashboard() {
 				const res = await axios.get('http://localhost:5000/dashboard');
 				if (res.data.valid) {
 					setName(res.data.username);
+					console.log(res.data.username);
 				} else {
 					navigate('/login');
 				}
@@ -44,11 +45,12 @@ export default function Dashboard() {
 			'Are you sure you want to delete your account?'
 		);
 		if (confirmDelete) {
-
 			try {
-				const res = await axios.delete('http://localhost:5000/delete-account',{withCredentials:true});
+				const res = await axios.delete('http://localhost:5000/delete-account', {
+					withCredentials: true,
+				});
 				if (res.data.dltMessage) {
-					navigate('/')
+					navigate('/');
 				}
 			} catch (err) {
 				console.log(err);
@@ -62,11 +64,13 @@ export default function Dashboard() {
 				<div className='content'>
 					<aside>
 						your account
-						<button  onClick={handleLogout} className='btn'>
+						<button onClick={handleLogout} className='btn'>
 							{' '}
 							Log Out
 						</button>
-						<button  onClick={handleDeleteAccount} className='btn'>Delete Account</button>
+						<button onClick={handleDeleteAccount} className='btn'>
+							Delete Account
+						</button>
 					</aside>
 					<section>
 						<h1> Manage your Tasks and Projects!</h1> Welcome {name}
