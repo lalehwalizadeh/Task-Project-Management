@@ -26,16 +26,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
 	session({
-		secret: process.env.AWS_ACCESS_KEY,
-		resave: false,
-		saveUninitialized: true,
-		cookie: {
-			secure: false,
-			maxAge: 1000 * 60 * 60 * 24,
-		},
+	  secret: process.env.AWS_ACCESS_KEY,
+	  resave: false,
+	  saveUninitialized: true,
+	  cookie: {
+		secure: false, // Set to true if you're using HTTPS
+		maxAge: 1000 * 60 * 60 * 24, // 1 day
+	  },
 	})
-);
-
+  );
+  
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -64,28 +64,22 @@ app.get(
 	})
 );
 
-// app.get(
-// 	'/auth/google/dashboard',
-// 	passport.authenticate('google', {
-// 		failureRedirect: '/login',
-// 	}),
-// 	(req, res) => {
-// 		req.session.user = {// Storing user info in session
-// 			name: req.user.displayName,
-// 			email:req.user.email
-// 		};
-// 		  res.json({ googleLogin: true }); // Redirect to dashboard after successful login
-// 		// res.redirect('http://localhost:5000/auth/google/dashboard')
-// 	}
-// );
-
-app.get('/auth/google/dashboard', (req, res) => {
-	if (req.isAuthenticated()){
-		res.json({ googleLogin: true });
-	} else {
-		res.json({googleLogin:false})
+app.get(
+	'/auth/google/dashboard',
+	passport.authenticate('google', {
+	  failureRedirect: '/login',
+	}),
+	(req, res) => {
+	  // Set session user after successful login
+	  req.session.user = {
+		name: req.user.name,
+		email: req.user.email,
+	  };
+	  res.json({ googleLogin: true }); // Redirect to dashboard after successful login
 	}
-})
+  );
+  
+  
 
 // Registration
 app.post('/signup', async (req, res) => {
@@ -145,42 +139,56 @@ app.post('/login', async (req, res) => {
 passport.use(
 	'google',
 	new GoogleStrategy(
-		{
-			clientID: process.env.GOOGLE_CLIENT_ID,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-			callbackURL: 'http://localhost:5000/auth/google/dashboard', // Use the correct port here
-			userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
-		},
-		async (accessToken, refreshToken, profile, cb) => {
-			try {
-				const email = profile.emails[0].value;
-				const result = await db.query('SELECT * FROM users WHERE email = $1', [
-					email,
-				]);
-				if (result.rows.length === 0) {
-					const newUser = await db.query(
-						'INSERT INTO users (email, name, password) VALUES ($1, $2, $3) RETURNING *',
-						[email, profile.displayName, 'google']
-					);
-					return cb(null, newUser.rows[0]);
-				} else {
-					req.session.user = {
-						name: result.rows[0],
-						email: result.rows[0],
-					};
-					return cb(null, result.rows[0]);
-				}
-			} catch (err) {
-				return cb(err);
-			}
+	  {
+		clientID: process.env.GOOGLE_CLIENT_ID,
+		clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+		callbackURL: 'http://localhost:5000/auth/google/dashboard',
+		userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
+	  },
+	  async (accessToken, refreshToken, profile, cb) => {
+		const email = profile.email;
+  
+		try {
+		  const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+		  if (result.rows.length === 0) {
+			// Create a new user if not found
+			const newUser = await db.query(
+			  'INSERT INTO users (email, name, password) VALUES ($1, $2, $3)',
+			  [email, profile.displayName, 'google']
+			);
+			return cb(null, newUser.rows[0]); // Pass the new user to the callback
+		  } else {
+			// User exists, return the user object
+			return cb(null, result.rows[0]);
+		  }
+		} catch (err) {
+		  console.error('Error in Google Strategy:', err);
+		  return cb(err);
 		}
+	  }
 	)
-);
+  );
+  
+  
+  
 
-passport.serializeUser((user, cb) => {
-	cb(null, user);
-});
-
+  passport.serializeUser((user, cb) => {
+	cb(null, user.email); // Use a unique identifier (like email) to serialize
+  });
+  
+  passport.deserializeUser(async (email, cb) => {
+	try {
+	  const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+	  if (result.rows.length > 0) {
+		cb(null, result.rows[0]); // Pass the user object to the callback
+	  } else {
+		cb(null, false); // User not found
+	  }
+	} catch (err) {
+	  cb(err);
+	}
+  });
+  
 // Logout route
 app.get('/logout', (req, res) => {
 	req.session.destroy((err) => {
