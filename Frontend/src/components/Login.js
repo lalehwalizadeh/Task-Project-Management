@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './Styles/Form.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
 import LoginValidation from './LoginValidation';
 import axios from 'axios';
 
@@ -14,6 +16,7 @@ export default function Login() {
 
 	const navigate = useNavigate();
 	const [errors, setErrors] = useState({});
+	const [visible, setVisible] = useState(true);
 
 	const handleInput = (event) => {
 		setFormData((prev) => ({
@@ -32,7 +35,6 @@ export default function Login() {
 			})
 			.catch((err) => console.log(err));
 	}, [navigate]);
-	
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -61,8 +63,9 @@ export default function Login() {
 	return (
 		<>
 			<Link to='/signup' className='back'>
-				
-				🔙
+				<IoMdArrowRoundBack
+					style={{ color: '#141c30', margin: '1rem', fontSize: '20px' }}
+				/>
 			</Link>
 
 			<div className='d-flex justify-content-center align-items-center vh-100 formContainer'>
@@ -89,14 +92,19 @@ export default function Login() {
 							<label htmlFor='password'>
 								<strong>Password</strong>
 							</label>
-							<input
-								type='password'
-								placeholder='Enter Password'
-								name='password'
-								id='password'
-								className='form-control '
-								onChange={handleInput}
-							/>
+							<div className='password-input-container'>
+								<input
+									type={visible ? 'text' : 'password'}
+									onChange={handleInput}
+									placeholder='Enter Password'
+									name='password'
+									id='password'
+								/>
+
+								<div onClick={() => setVisible(!visible)}>
+									{visible ? <IoEyeSharp /> : <IoEyeOffSharp />}
+								</div>
+							</div>
 							{errors.password && (
 								<span className='text-danger'>{errors.password}</span>
 							)}

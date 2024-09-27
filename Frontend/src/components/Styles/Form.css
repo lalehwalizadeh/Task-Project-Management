@@ -3,57 +3,89 @@
 	--meduim-color: #b4cecf;
 	--main-color: #70788d;
 	--dark-color: #4d5361;
+	--cod-gray: #121211;
+	--big-stone: #141c30;
+	--smalt-blue: #5b808f;
+	--river-bed: #3f4954;
+
+	--yellow-sea: #fbb204;
+	--medium-purple: #9374db;
+	--cornflower: #8ccbe3;
+	--affair: #634082;
+	--mischka: #e7e2ea;
+	--spicy-mustard: #846213;
+	--bermuda: #84bcdc;
+	--biloba-flower: #ac98eb;
+	--envy: #94a491;
 }
 
-
 .formContainer {
-   
-    display: grid;
+	display: grid;
 	justify-content: center;
 	align-items: center;
-	border: 1px solid var(--dark-color);
+	border: 1px solid var(--big-stone);
 	border-radius: 5px;
+	background-color: var(--light-color);
 	padding: 1rem;
 	margin: 1rem;
 	width: 400px;
 	height: 500px;
 }
 
-.formContainer h2{
-    margin-bottom: 3rem;
+.formContainer h2 {
+	margin-bottom: 3rem;
 	line-height: 3rem;
-    border-bottom: 1px solid var(--dark-color);
+	color: var(--yellow-sea);
+	border-bottom: 1px solid var(--dark-color);
 	text-align: center;
 	align-items: center;
 }
 
-input:focus {
-	border: 1.5px solid var(--dark-color);
+
+
+.password-input-container{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border: 1px solid #dee2e6;
+	border-radius: .375rem;
+	padding:6px 12px;
+	font-weight: 400;
+	font-size: 1rem;
+	background: transparent;
+
+}
+.password-input-container input{
+	outline: 0;
+	border: none;
+width: 100%;
+background: white;
 }
 
 form .bton {
 	padding: 10px;
-    margin-top: 1rem;
+	margin-top: 1rem;
 	border-radius: 5px;
-	
+
 	border: none;
-	background: var(--main-color);
-	color: var(--meduim-color);
+	background: var(--big-stone);
+	color: var(--light-color);
 }
 
-.bton:hover{
-    cursor: pointer;
-    opacity: 0.9;
-    transform: translateY(3px);
-    transition: all 0.3s ease-in-out;
+.bton:hover {
+	cursor: pointer;
+	background-color: var(--yellow-sea) !important;
+	color: var(--big-stone);
+	transform: translateY(3px);
+	transition: all 0.3s ease-in-out;
 }
 
-.mrg-tp{
+.mrg-tp {
 	margin-top: 1rem;
 	text-align: center;
 	align-items: center;
 }
-.back{
+.back {
 	position: absolute;
 	top: 0;
 	left: 0;

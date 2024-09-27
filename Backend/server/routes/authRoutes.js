@@ -1,67 +1,14 @@
-
-
-
-
-
-
-
-
-
-
-
 import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import pg from 'pg';
-import session from 'express-session';
-import cookieParser from 'cookie-parser';
-import passport from 'passport';
 import bcrypt from 'bcrypt';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
-import env from 'dotenv';
+import passport from 'passport';
+import db from '../db';
 
-env.config();
-const app = express();
+
+const router = express.Router();
 const saltRound = 10;
-const PORT = process.env.PORT || 5000;
 
-app.use(express.json());
-app.use(
-	cors({
-		origin: ['http://localhost:3000'],
-		methods: ['POST', 'GET', 'DELETE', 'PUT'],
-		credentials: true,
-		allowedHeaders: ['Content-Type', 'Authorization'],
-	})
-);
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(
-	session({
-		secret: process.env.AWS_ACCESS_KEY,
-		resave: false,
-		saveUninitialized: true,
-		cookie: {
-			secure: false,
-			maxAge: 1000 * 60 * 60 * 24,
-		},
-	})
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-const db = new pg.Client({
-	user: process.env.USER,
-	host: process.env.HOST,
-	database: process.env.DATABASE,
-	password: process.env.PASSWORD,
-	port: 5432,
-});
-
-db.connect();
-
-app.get('/dashboard', (req, res) => {
+router.get('/dashboard', (req, res) => {
 	if (req.session.user) {
 		return res.json({ valid: true, username: req.session.user.name });
 	} 
@@ -70,14 +17,14 @@ app.get('/dashboard', (req, res) => {
 });
 
 // Google login
-app.get(
+router.get(
 	'/auth/google',
 	passport.authenticate('google', {
 		scope: ['profile', 'email'],
 	})
 );
 
-app.get(
+router.get(
 	'/auth/google/dashboard',
 	passport.authenticate('google', {
 		failureRedirect: '/login',
@@ -91,7 +38,7 @@ app.get(
 	}
 );
 
-// app.get('/auth/google/dashboard',
+// router.get('/auth/google/dashboard',
 	
 // 	(req, res) => {
 // 	if (req.session.user) {
@@ -102,7 +49,7 @@ app.get(
 // });
 
 // Registration
-app.post('/signup', async (req, res) => {
+router.post('/signup', async (req, res) => {
 	const { email, name, password } = req.body;
 
 	try {
@@ -127,7 +74,7 @@ app.post('/signup', async (req, res) => {
 });
 
 // Login
-app.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
 	const { email, password } = req.body;
 
 	try {
@@ -154,6 +101,8 @@ app.post('/login', async (req, res) => {
 		return res.status(500).json({ Message: 'Server Error' });
 	}
 });
+
+
 
 // Google strategy
 passport.use(
@@ -197,7 +146,7 @@ passport.serializeUser((user, cb) => {
 });
 
 // Logout route
-app.get('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
 	req.session.destroy((err) => {
 		if (err) {
 			console.log(err);
@@ -207,9 +156,10 @@ app.get('/logout', (req, res) => {
 	});
 });
 
+
 // Delete account Rout:
 
-app.delete('/delete-account', async (req, res) => {
+router.delete('/delete-account', async (req, res) => {
 	if (!req.session.user) {
 		return res.json({ message: 'Unauthorized' });
 	}
@@ -230,13 +180,5 @@ app.delete('/delete-account', async (req, res) => {
 	}
 });
 
-app.listen(PORT, () => {
-	console.log('Server started on port', PORT);
-});
 
-
-
-
-
-
-
+export default router;

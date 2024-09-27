@@ -1,8 +1,10 @@
 import Header from './Header';
+import Navbar from './Navbar';
 import React, { useEffect, useState } from 'react';
 import './Styles/Tasks.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import CreateTask from './CreateTasks';
 
 export default function Dashboard() {
 	const [name, setName] = useState('');
@@ -59,13 +61,12 @@ export default function Dashboard() {
 	};
 	return (
 		<>
-			<Header />
 			<div className='dashboard-container'>
 				<div className='content'>
 					<aside>
+						<Navbar />
 						your account
 						<button onClick={handleLogout} className='btn'>
-							{' '}
 							Log Out
 						</button>
 						<button onClick={handleDeleteAccount} className='btn'>
@@ -73,7 +74,11 @@ export default function Dashboard() {
 						</button>
 					</aside>
 					<section>
-						<h1> Manage your Tasks and Projects!</h1> Welcome {name}
+						<div>{/* <Header /> */}</div>
+						<div>
+							<div className='dashboard-head'>Welcome {name} to your dashboard!</div>
+							<CreateTask />
+						</div>
 					</section>
 				</div>
 			</div>

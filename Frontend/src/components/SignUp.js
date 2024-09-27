@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
+import { IoMdArrowRoundBack } from "react-icons/io";
 import './Styles/Form.css';
 import SignupValidation from './SignupValidation';
 import axios from 'axios';
@@ -12,6 +14,7 @@ export default function SignUp() {
 	});
 	const navigate = useNavigate();
 	const [errors, setErrors] = useState({});
+	const [visible, setVisible] = useState(true);
 
 	const handleInput = (event) => {
 		setFormData((prev) => ({
@@ -76,7 +79,7 @@ export default function SignUp() {
 			})
 			.catch((err) => {
 				console.log(err, 'what is the error');
-				console.log('Error message:',err.response);
+				console.log('Error message:', err.response);
 				console.log('error message:', err.message);
 			});
 	}, [navigate]);
@@ -84,8 +87,7 @@ export default function SignUp() {
 	return (
 		<>
 			<Link to='/' className='back'>
-				{' '}
-				🔙
+				<IoMdArrowRoundBack style={{color: '#141c30',margin:'1rem',fontSize :'20px'}}/>
 			</Link>
 			<div className='d-flex justify-content-center align-items-center vh-100 formContainer'>
 				<div className='p-3 rounded w-100'>
@@ -127,14 +129,21 @@ export default function SignUp() {
 							<label htmlFor='password'>
 								<strong>Password</strong>
 							</label>
-							<input
-								type='password'
-								onChange={handleInput}
-								placeholder='Enter Password'
-								className='form-control '
-								name='password'
-								id='password'
-							/>
+							<div className='password-input-container'>
+								<input
+									type={visible ? 'text' : 'password'}
+									onChange={handleInput}
+									placeholder='Enter Password'
+									
+									name='password'
+									id='password'
+								/>
+
+								<div onClick={() => setVisible(!visible)}>
+									{visible ? <IoEyeSharp /> : <IoEyeOffSharp />}
+								</div>
+							</div>
+
 							{errors.password && (
 								<span className='text-danger'>{errors.password}</span>
 							)}

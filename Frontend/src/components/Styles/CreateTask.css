@@ -1,0 +1,75 @@
+:root {
+	--light-color: #fefefd;
+	--meduim-color: #b4cecf;
+	--main-color: #70788d;
+	--dark-color: #4d5361;
+	--cod-gray: #121211;
+	--big-stone: #141c30;
+	--smalt-blue: #5b808f;
+	--river-bed: #3f4954;
+	--yellow-sea: #fbb204;
+	--medium-purple: #9374db;
+	--cornflower: #8ccbe3;
+	--affair: #634082;
+	--mischka: #e7e2ea;
+	--spicy-mustard: #846213;
+	--bermuda: #84bcdc;
+	--biloba-flower: #ac98eb;
+	--envy: #94a491;
+}
+
+.task-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 1rem;
+}
+
+.task-card{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 210px;
+    border: 1.5px dashed var(--dark-color);
+    padding: 20px;
+    border-radius: 8px;
+}
+.ad-btn {
+    display: flex;
+    outline: 0;
+    border: none;
+    background: transparent;
+}
+.mdl-title{
+    text-align: center;
+    color: var(--yellow-sea);
+}
+ button.submit-btn{
+    display: flex;
+    padding: 0.5rem 2rem;
+    background-color: var(--big-stone);
+    color: var(--light-color);
+    justify-content: center;
+    text-align: center;
+  
+ }
+ button.cancel-btn{
+    display: flex;
+    padding: 0.5rem 2rem;
+    background-color: var(--yellow-sea);
+    color: var(--big-stone);
+    justify-content: center;
+    text-align: center;
+ }
+ .mdl-btn-container{
+    display: flex;
+    margin-top: 2rem;
+    justify-content: space-between;
+  
+ }
+div>button:hover{
+    transform: translateY(4px);
+    transition: all 0.3s ease-in-out;
+    opacity: 0.8 !important;
+ }

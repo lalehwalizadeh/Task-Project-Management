@@ -1,9 +1,18 @@
-
-:root{
+:root {
 	--light-color: #fefefd;
-	--meduim-color: #b4cecf;
+	--meduim-color: #8ccbe3;
 	--main-color: #70788d;
 	--dark-color: #4d5361;
+	--cod-gray: #121211;
+	--yellow-sea: #fbb204;
+	--medium-purple: #9374db;
+	--cornflower: #8ccbe3;
+	--affair: #634082;
+	--mischka: #e7e2ea;
+	--spicy-mustard: #846213;
+	--bermuda: #84bcdc;
+	--biloba-flower: #ac98eb;
+	--envy: #94a491;
 }
 
 * {
@@ -11,13 +20,13 @@
 	padding: 0;
 	box-sizing: border-box;
 
-/* font 1 */
+	/* font 1 */
 
-	font-family: "EB Garamond", serif;
+	font-family: 'EB Garamond', serif;
 	font-optical-sizing: auto;
-	font-weight:400;
+	font-weight: 400;
 	font-style: normal;
-  /* font 2 */
+	/* font 2 */
 
 	/* font-family: 'Acme', sans-serif;
 	font-weight: 400;
@@ -27,10 +36,9 @@
 body {
 	display: flex;
 	justify-content: center;
-	background-color: var(--meduim-color);
+	background-color: var(--cornflower) !important;
 	color: var(--dark-color);
 	border-color: var(--dark-color);
-	
 }
 h1 {
 	text-align: center;
@@ -42,5 +50,3 @@ p {
 	text-align: justify;
 	margin: 20px;
 }
-
-
