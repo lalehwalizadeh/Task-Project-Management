@@ -2,8 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import passport from 'passport';
-import db from '../db';
-
+import db from '../db.mjs';
 
 const router = express.Router();
 const saltRound = 10;
@@ -11,9 +10,9 @@ const saltRound = 10;
 router.get('/dashboard', (req, res) => {
 	if (req.session.user) {
 		return res.json({ valid: true, username: req.session.user.name });
-	} 
-	console.log(req.session.user);
-	return res.json({ valid: false });
+	} else {
+		return res.json({ valid: false });
+	}
 });
 
 // Google login
@@ -30,16 +29,17 @@ router.get(
 		failureRedirect: '/login',
 	}),
 	(req, res) => {
-		req.session.user = {// Storing user info in session
+		req.session.user = {
+			// Storing user info in session
 			name: req.user.displayName,
-			email:req.user.emails[0].value
+			email: req.user.emails[0].value,
 		};
-		  res.json({ googleLogin: true }); // Redirect to dashboard after successful login
+		res.json({ googleLogin: true }); // Redirect to dashboard after successful login
 	}
 );
 
 // router.get('/auth/google/dashboard',
-	
+
 // 	(req, res) => {
 // 	if (req.session.user) {
 // 		return res.json({ googleLogin: true });
@@ -102,8 +102,6 @@ router.post('/login', async (req, res) => {
 	}
 });
 
-
-
 // Google strategy
 passport.use(
 	'google',
@@ -156,9 +154,7 @@ router.get('/logout', (req, res) => {
 	});
 });
 
-
 // Delete account Rout:
-
 router.delete('/delete-account', async (req, res) => {
 	if (!req.session.user) {
 		return res.json({ message: 'Unauthorized' });
@@ -179,6 +175,5 @@ router.delete('/delete-account', async (req, res) => {
 		res.json({ message: 'Server Error' });
 	}
 });
-
 
 export default router;

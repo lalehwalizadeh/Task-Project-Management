@@ -14,7 +14,7 @@ export default function SignUp() {
 	});
 	const navigate = useNavigate();
 	const [errors, setErrors] = useState({});
-	const [visible, setVisible] = useState(true);
+	const [visible, setVisible] = useState(false);
 
 	const handleInput = (event) => {
 		setFormData((prev) => ({
@@ -156,13 +156,13 @@ export default function SignUp() {
 							Have you already an Account? <Link to='/login'>Login</Link>{' '}
 						</p>
 
+						</form>
 						<button
 							type='button'
 							className='btn btn-default border w-100 text-decoration-none'
 							onClick={handleGoogleLogin}>
 							Login with your Google account
 						</button>
-					</form>
 				</div>
 			</div>
 		</>

@@ -1,4 +1,4 @@
-import Header from './Header';
+// import Header from './Header';
 import Navbar from './Navbar';
 import React, { useEffect, useState } from 'react';
 import './Styles/Tasks.css';
@@ -18,7 +18,6 @@ export default function Dashboard() {
 				const res = await axios.get('http://localhost:5000/dashboard');
 				if (res.data.valid) {
 					setName(res.data.username);
-					console.log(res.data.username);
 				} else {
 					navigate('/login');
 				}

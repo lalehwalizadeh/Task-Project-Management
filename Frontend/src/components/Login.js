@@ -16,7 +16,7 @@ export default function Login() {
 
 	const navigate = useNavigate();
 	const [errors, setErrors] = useState({});
-	const [visible, setVisible] = useState(true);
+	const [visible, setVisible] = useState(false);
 
 	const handleInput = (event) => {
 		setFormData((prev) => ({
@@ -45,7 +45,7 @@ export default function Login() {
 				const res = await axios.post('http://localhost:5000/login', formData);
 				if (res.data.Login) {
 					console.log(res.data.Login);
-					navigate('/dashboard/');
+					navigate('/dashboard');
 				} else {
 					alert(
 						res.data.errMessage
