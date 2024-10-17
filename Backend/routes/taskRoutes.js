@@ -58,6 +58,36 @@ router.post('/submit/task', upload.single('file'), async (req, res) => {
 		console.error(err);
 	}
 });
+router.get('/task/:id', async(req, res) => {
+	const { id } = req.params;
+	try {
+		const result = await db.query('SELECT* FROM tasks WHERE id = $1',[id])
+		if (result.rows.length > 0) {
+			res.json(result.rows[0]);
+		} else {
+			res.send('task not found!')
+		}
+	} catch (err) {
+		console.log(err);
+	}
+})
+
+// updating task
+router.patch('/update/:id', upload.single('file'), async (req, res) => {
+	const { id } = req.params;
+	const { name, date, type, description } = req.body;
+	try {
+		const imageUrl = req.file ? '../uploads/' + req.file.filename : null; //keep existing image if no new file is uploaded
+		await db.query(
+			`UPDATE tasks SET title = $1,description =$2,type=$3,due_date=$4,image =COALESCE($5,image)WHERE id = $6`,
+			[name, description, type, date, imageUrl, id]
+		);
+	} catch {
+		(err) => {
+			console.log(err);
+		};
+	}
+});
 
 // Deleting task
 

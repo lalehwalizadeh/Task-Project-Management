@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
-import { IoMdArrowRoundBack } from "react-icons/io";
+import { IoMdArrowRoundBack } from 'react-icons/io';
 import './Styles/Form.css';
 import SignupValidation from './SignupValidation';
 import axios from 'axios';
@@ -87,7 +87,9 @@ export default function SignUp() {
 	return (
 		<>
 			<Link to='/' className='back'>
-				<IoMdArrowRoundBack style={{color: '#141c30',margin:'1rem',fontSize :'20px'}}/>
+				<IoMdArrowRoundBack
+					style={{ color: '#141c30', margin: '1rem', fontSize: '20px' }}
+				/>
 			</Link>
 			<div className='d-flex justify-content-center align-items-center vh-100 formContainer'>
 				<div className='p-3 rounded w-100'>
@@ -134,13 +136,12 @@ export default function SignUp() {
 									type={visible ? 'text' : 'password'}
 									onChange={handleInput}
 									placeholder='Enter Password'
-									
 									name='password'
 									id='password'
 								/>
 
 								<div onClick={() => setVisible(!visible)}>
-									{visible ? <IoEyeSharp /> : <IoEyeOffSharp />}
+									{visible ? <IoEyeOffSharp /> : <IoEyeSharp />}
 								</div>
 							</div>
 
@@ -155,14 +156,13 @@ export default function SignUp() {
 						<p className='mrg-tp'>
 							Have you already an Account? <Link to='/login'>Login</Link>{' '}
 						</p>
-
-						</form>
-						<button
-							type='button'
-							className='btn btn-default border w-100 text-decoration-none'
-							onClick={handleGoogleLogin}>
-							Login with your Google account
-						</button>
+					</form>
+					<button
+						type='button'
+						className='btn btn-default border w-100 text-decoration-none'
+						onClick={handleGoogleLogin}>
+						Login with your Google account
+					</button>
 				</div>
 			</div>
 		</>

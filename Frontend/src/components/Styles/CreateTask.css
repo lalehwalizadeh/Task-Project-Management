@@ -109,7 +109,17 @@
     justify-content: space-between;
   
  }
+ 
 div>button:hover{
     transition: all 0.3s ease-in-out;
     opacity: 0.8 !important;
+ }
+
+ /* Delete task styles */
+ .dlt-mdl-btn{
+    display: flex;
+    margin-top: 2rem;
+    justify-content: flex-end;
+    gap: 10px;
+  
  }

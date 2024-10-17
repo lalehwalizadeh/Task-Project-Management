@@ -2,7 +2,7 @@ import React from 'react';
 import './Styles/nav.css';
 import { motion } from 'framer-motion';
 import { Link, NavLink } from 'react-router-dom';
-import { FaHome, FaBars, FaSearch } from 'react-icons/fa';
+import { FaHome, FaSearch } from 'react-icons/fa';
 import { IoLogoBuffer } from "react-icons/io5"; //logo
 import { IoNotifications } from "react-icons/io5";
 import { GrProjects } from "react-icons/gr";

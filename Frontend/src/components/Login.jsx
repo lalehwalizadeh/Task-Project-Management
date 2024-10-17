@@ -102,7 +102,7 @@ export default function Login() {
 								/>
 
 								<div onClick={() => setVisible(!visible)}>
-									{visible ? <IoEyeSharp /> : <IoEyeOffSharp />}
+									{visible ? <IoEyeOffSharp /> : <IoEyeSharp />}
 								</div>
 							</div>
 							{errors.password && (
