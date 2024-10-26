@@ -1,52 +1,49 @@
 :root {
 	--light-color: #fefefd;
-	--meduim-color: #8ccbe3;
+	--light-purple: #e8d9ec;
+	--secondary-purple: #cea0aa;
+	--primary-white: #f8f8f8;
+	--pure-white: #ffffff;
+	--dark-blue: #181d31;
+	/* old colors */
+	/* --meduim-color: #8ccbe3;
 	--main-color: #70788d;
 	--dark-color: #4d5361;
 	--cod-gray: #121211;
 	--yellow-sea: #fbb204;
 	--medium-purple: #9374db;
-	--cornflower: #8ccbe3;
 	--affair: #634082;
 	--mischka: #e7e2ea;
 	--spicy-mustard: #846213;
 	--bermuda: #84bcdc;
 	--biloba-flower: #ac98eb;
 	--envy: #94a491;
+} */
 }
-
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-
-	/* font 1 */
-
 	font-family: 'EB Garamond', serif;
 	font-optical-sizing: auto;
 	font-weight: 400;
 	font-style: normal;
-	/* font 2 */
 
-	/* font-family: 'Acme', sans-serif;
-	font-weight: 400;
-	font-style: normal; */
 }
 
 body {
 	display: flex;
 	justify-content: center;
-	background-color: var(--cornflower) !important;
-	color: var(--dark-color);
-	border-color: var(--dark-color);
+	background-color: var(--primary-white) !important;
+	
 }
+
 h1 {
 	text-align: center;
-
 	justify-content: center;
 	line-height: 3rem;
 }
 p {
 	text-align: justify;
-	margin: 20px;
+	
 }

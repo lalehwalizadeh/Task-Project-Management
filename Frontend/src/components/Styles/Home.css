@@ -1,4 +1,5 @@
 :root {
+	--head-color:#CEA0AA;
 	--light-color: #fefefd;
 	--meduim-color: #b4cecf;
 	--main-color: #70788d;
@@ -22,8 +23,7 @@
 
 
 .home-layout {
-	display: grid;
-	grid-template-columns: 1fr 5fr;
+	display: flex;
 }
 
 .home-container {
@@ -35,7 +35,7 @@
 .home-container h4 {
 	font-weight: 600;
 	margin-top: 3rem;
-	color: #fbb204;
+	color: var(--head-color);
 }
 .home-head{
 	display: flex;

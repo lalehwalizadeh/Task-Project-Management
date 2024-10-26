@@ -21,11 +21,11 @@ export default function DeleteTask(props) {
 	return (
 		<>
 			<button
-				className='btn'
+				className='icon-btn-container'
 				onClick={() => {
 					setConfirmDelete(true);
 				}}>
-				<FaTrashCan style={{ fontSize: '20px' }} />
+				<FaTrashCan style={{color:'#ff2c2c',fontSize:'12px'}} />
 			</button>
 			{confirmDelete &&
 				createPortal(
@@ -34,7 +34,7 @@ export default function DeleteTask(props) {
 							setConfirmDelete(false);
 						}}>
 						<p> Are you sure you want to delete this task?</p>
-						<div className='dlt-mdl-btn'>
+						<div className='dlt-mdl-btn mdl-btn-container'>
 							<button
 								className='submit-btn btn'
 								onClick={() => {

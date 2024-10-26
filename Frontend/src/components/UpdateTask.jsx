@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-
+import '../components/Styles/UpdateTask.css'
+import '../components/Styles/CreateTask.css'
 import axios from 'axios';
 
 export default function UpdateTask(props) {
@@ -18,13 +19,16 @@ export default function UpdateTask(props) {
 		axios
 			.get(`http://localhost:5000/task/${id}`)
 			.then((res) => {
-				console.log(res.data);
+				console.log('get update form data ', res.data);
+				const dueDate = new Date(res.data.due_date);
+				const formattedDate = dueDate.toISOString().split('T')[0]
+			
 				setValues({
 					name: res.data.title || '',
-					date: res.data.due_date.split('en-US')[0] || '',
+					date: formattedDate || '',
 					type: res.data.type || '',
 					description: res.data.description || '',
-					image: null, //reset img
+					image: res.data.image, //reset img
 				});
 			})
 			.catch((err) => console.log(err));
@@ -34,6 +38,7 @@ export default function UpdateTask(props) {
 		const { name, value, files } = e.target;
 		if (name === 'file') {
 			setValues({ ...values, [name]: files[0] });
+		
 		} else if (name === 'type') {
 			setValues({
 				...values,
@@ -48,7 +53,7 @@ export default function UpdateTask(props) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const formData = new FormData();
-		console.log(formData);
+		console.log('update form data', formData);
 		Object.keys(values).forEach((key) => {
 			formData.append(key, values[key]);
 		});
@@ -63,7 +68,7 @@ export default function UpdateTask(props) {
 	};
 	return (
 		<>
-			<div>
+			<div className='update-task-container'>
 				<h2 className='mdl-title'>Edit Task</h2>
 
 				<form action='/update/:id' method='PATCH' onSubmit={handleSubmit}>
@@ -79,13 +84,10 @@ export default function UpdateTask(props) {
 					</div>
 					<div className='mb-3'>
 						<input
+							
 							className='form-control'
 							name='date'
-							value={new Date(values.due_date).toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: '2-digit',
-								day: '2-digit',
-							})}
+							value={values.date}
 							type='date'
 							required
 							onChange={handleInputChange}
@@ -109,6 +111,11 @@ export default function UpdateTask(props) {
 								className='form-control'
 								onChange={handleInputChange}
 							/>
+							<img
+								className='task-img'
+								src={`http://localhost:5000/task/${values.image}`}
+								alt={values.name || 'task Image'}
+							/>
 						</div>
 						<div className='mb-3'>
 							<select
@@ -117,9 +124,10 @@ export default function UpdateTask(props) {
 								onChange={handleInputChange}
 								className='form-select'
 								aria-label='Default select example'>
-								<option> Select an option</option>
-								<option value='team'>Team Work</option>
-								<option value='individual'>Individual</option>
+								<option>{values.type} </option>
+								<option value='low'>Low</option>
+								<option value='medium'>Medium</option>
+								<option value='high'>High</option>
 							</select>
 						</div>
 					</div>
@@ -127,9 +135,9 @@ export default function UpdateTask(props) {
 						<Link to={'/dashboard'} className='btn cancel-btn'>
 							Cancel
 						</Link>
-						<button type='submit' className='btn submit-btn'>
+						<Link  className='btn submit-btn' to={'/dashboard'}>
 							Save Changes
-						</button>
+						</Link>
 					</div>
 				</form>
 			</div>

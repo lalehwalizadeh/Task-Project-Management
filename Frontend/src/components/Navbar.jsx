@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Styles/nav.css';
 import { motion } from 'framer-motion';
-import { Link, NavLink } from 'react-router-dom';
-import { FaHome, FaSearch } from 'react-icons/fa';
-import { IoLogoBuffer } from "react-icons/io5"; //logo
-import { IoNotifications } from "react-icons/io5";
-import { GrProjects } from "react-icons/gr";
+import { NavLink } from 'react-router-dom';
+import { FaBars, FaHome } from 'react-icons/fa';
+import {RiDashboard3Line} from 'react-icons/ri'
+import { IoNotifications,IoSettingsSharp, IoLogoBuffer} from "react-icons/io5";
+import {MdTaskAlt} from 'react-icons/md'
 import { CgProfile } from "react-icons/cg"
 
 const nav_routes = [
@@ -15,14 +15,14 @@ const nav_routes = [
 		icon: <FaHome />,
 	},
 	{
-		path: '/signup',
-		name: 'Search',
-		icon: <FaSearch />,
+		path: '/dashboard',
+		name: 'Tasks',
+		icon: <MdTaskAlt />,
 	},
 	{
 		path: '/dashboard',
-		name: 'Projects',
-		icon: <GrProjects />,
+		name: 'Dashboard',
+		icon: <RiDashboard3Line />,
 	},
 	{
 		path: '/',
@@ -36,42 +36,51 @@ const nav_routes = [
 		icon: <CgProfile />,
 	},
 	
+	{
+		path: '/',
+		name: 'Setting',
+		icon: <IoSettingsSharp />,
+	},
+	
 ];
 
 export default function Navbar() {
-
+	const [isOpen, setIsOpen] = useState('false');
+	const toggle = () => {
+		setIsOpen(!isOpen)
+	}
 	
 	return (
 		<div className='nav-design'>
 			<motion.div
-				animate={{ width:  '200px' }}
+				animate={{ width: isOpen? '200px' :'40px'}}
 				className='side-bar'>
 				<div className='top-section'>
 					
 						<div className='logo'>
-							<IoLogoBuffer style={{fontSize:'24px'}}/> <span> TPM </span>
+						{isOpen && <IoLogoBuffer style={{ fontSize: '24px' }} />}
 						</div>
 					
 
 					<div className='bars'>
-						
+						<FaBars onClick={toggle}/>
 					</div>
 				</div>
 				<section className='routes'>
 					{nav_routes.map((route) => (
 						<NavLink to={route.path} key={route.name} className='link'>
 							<div className='icon'> {route.icon}</div>
-							<div className='link-text'> {route.name}</div>
+							<div className='link-text'> {isOpen &&  route.name}</div>
 						</NavLink>
 					))}
 				</section>
-			</motion.div>
 				<div></div>
-				<div className='btn-container'>
+				{/* <div className='btn-container'>
 					<Link className='regs' to='/SignUp'>
 						Registration
 					</Link>
-				</div>
+				</div> */}
+			</motion.div>
 		</div>
 	);
 }

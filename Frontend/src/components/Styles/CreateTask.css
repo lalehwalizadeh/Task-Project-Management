@@ -1,125 +1,133 @@
 :root {
-	--light-color: #fefefd;
-	--meduim-color: #b4cecf;
-	--main-color: #70788d;
-	--dark-color: #4d5361;
-	--cod-gray: #121211;
-	--big-stone: #141c30;
-	--smalt-blue: #5b808f;
-	--river-bed: #3f4954;
-	--yellow-sea: #fbb204;
-	--medium-purple: #9374db;
-	--cornflower: #8ccbe3;
-	--affair: #634082;
-	--mischka: #e7e2ea;
-	--spicy-mustard: #846213;
-	--bermuda: #84bcdc;
-	--biloba-flower: #ac98eb;
-	--envy: #94a491;
-}
-
-/* Task card styles */
-.task-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    margin: 1rem;
-}
-
-.create-new-task{
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-    height: 210px;
-    border: 1.5px dashed var(--dark-color);
-    padding: 20px;
-    border-radius: 8px;
-}
-.task-card{
-    display: grid;
-    /* height: 310px; */
-    border: 1.5px solid var(--dark-color);
-    padding: 10px;
-    border-radius: 8px;
-}
-.task-card h3{
-    text-transform: uppercase;
-    font-weight: 600;
-}
-.task-img{
-    width: 190px;
-    height:100px ;
-    object-fit:cover;
+	--light-purple: #e8d9ec;
+	--secondary-purple: #cea0aa;
+	--primary-white: #f8f8f8;
+	--pure-white: #ffffff;
+	--dark-blue: #181d31;
 
 }
-.task-title{
-    font-weight: 500;
+
+/* Task card styles| task container */
+.task-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 20px;
+	margin: 1rem;
+}
+
+.task-card {
+	display: grid;
+	justify-content: center;
+	padding: 10px;
+	background-color: var(--pure-white);
+	border-radius: 1rem;
+}
+
+.task-img {
+	display: flex;
+	margin: 5px;
+	width: 220px;
+	height: 120px;
+	object-fit: cover;
+
+	border-radius: 5px;
+}
+.task-title {
+	text-align: start;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+.task-type {
+	display: flex;
+	padding: 4px 10px;
+	font-size: 10px;
+	font-weight: 600;
+	border-radius: 0.5rem;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+.task-btn-container {
+	display: inline-flex;
+	border-top: 1px solid var(--dark-blue);
+	justify-content: space-between;
+	margin: 0 10px;
+	align-items: center;
+	text-align: center;
+}
+
+.task-card p {
+	margin: 5px 0;
+	font-size: 12px;
+}
+
+.edit-delete-icons {
+	display: flex;
+	gap: 0.5rem;
+	justify-content: center;
+	align-items: center;
+}
+
+/* modal styles | create new task*/
+.create-new-task {
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	align-items: center;
+	height: 210px;
+	border: 1.5px dashed var(--dark-color);
+	padding: 20px;
+	border-radius: 8px;
+}
+.mdl-title {
+	text-align: center;
+	color: var(--secondary-purple);
+}
+.mdl-btn-container .submit-btn {
+	display: flex;
+	padding: 0.5rem 2rem;
+	background-color: var(--big-stone);
+	color: var(--light-color);
+	justify-content: center;
+	text-align: center;
+}
+.mdl-btn-container .cancel-btn {
+	display: flex;
+	padding: 0.5rem 2rem;
+	background-color: var(--light-purple);
+	color: var(--big-stone);
+	justify-content: center;
+	text-align: center;
+}
+.mdl-btn-container {
+	display: flex;
+	margin-top: 2rem;
+	justify-content: space-between;
 }
 .ad-btn {
-    display: flex;
-    outline: 0;
-    border: none;
-    background: transparent;
+	display: flex;
+	outline: 0;
+	border: none;
+	background: transparent;
 }
-.task-btn-container{
-    display: inline-flex;
-    border-top: 1px solid var(--big-stone);
-   justify-content: space-between;
-   align-items: center;
-   text-align: center;
-
+.mdl-btn-container .submit-btn:hover {
+	background-color: var(--big-stone);
+	color: var(--light-color);
+	opacity: 0.8;
 }
-.tgl-btn{
-    border: none;
-    outline: 0;
-    margin: 5px;
-    padding: 5px 10px;
-    border-radius: 10px;
-    background: green;
-    color: white;
-    font-size: 10px;
+div > button:hover {
+	transition: all 0.3s ease-in-out;
 }
 
-/* modal styles */
-.mdl-title{
-    text-align: center;
-    color: var(--yellow-sea);
+/* Delete task styles */
+.dlt-mdl-btn {
+	display: flex;
+	margin-top: 2rem;
+	justify-content: flex-end;
+	gap: 10px;
 }
- button.submit-btn{
-    display: flex;
-    padding: 0.5rem 2rem;
-    background-color: var(--big-stone);
-    color: var(--light-color);
-    justify-content: center;
-    text-align: center;
-  
- }
- button.cancel-btn{
-    display: flex;
-    padding: 0.5rem 2rem;
-    background-color: var(--yellow-sea);
-    color: var(--big-stone);
-    justify-content: center;
-    text-align: center;
- }
- .mdl-btn-container{
-    display: flex;
-    margin-top: 2rem;
-    justify-content: space-between;
-  
- }
- 
-div>button:hover{
-    transition: all 0.3s ease-in-out;
-    opacity: 0.8 !important;
- }
-
- /* Delete task styles */
- .dlt-mdl-btn{
-    display: flex;
-    margin-top: 2rem;
-    justify-content: flex-end;
-    gap: 10px;
-  
- }
+.icon-btn-container {
+	border: none;
+	outline: 0;
+	background: transparent;
+}
