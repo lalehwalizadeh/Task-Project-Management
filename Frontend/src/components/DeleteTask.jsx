@@ -3,8 +3,8 @@ import axios from 'axios';
 import { FaTrashCan } from 'react-icons/fa6';
 import Modal from './Modal';
 import { createPortal } from 'react-dom';
+import { toast } from 'react-toastify';
 import './Styles/CreateTask.css';
-
 
 export default function DeleteTask(props) {
 	const [confirmDelete, setConfirmDelete] = useState(false);
@@ -12,8 +12,8 @@ export default function DeleteTask(props) {
 	const confirmDeleteTask = async () => {
 		try {
 			await axios.delete(`http://localhost:5000/delete/task/${props.task.id}`);
-
 			setConfirmDelete(false);
+			toast.success('Task deleted successfully!');
 		} catch (err) {
 			console.log(err);
 		}
@@ -25,7 +25,7 @@ export default function DeleteTask(props) {
 				onClick={() => {
 					setConfirmDelete(true);
 				}}>
-				<FaTrashCan style={{color:'#ff2c2c',fontSize:'12px'}} />
+				<FaTrashCan style={{ color: '#ff2c2c', fontSize: '12px' }} />
 			</button>
 			{confirmDelete &&
 				createPortal(
@@ -35,6 +35,13 @@ export default function DeleteTask(props) {
 						}}>
 						<p> Are you sure you want to delete this task?</p>
 						<div className='dlt-mdl-btn mdl-btn-container'>
+						<button
+								className='cancel-btn btn'
+								onClick={() => {
+									setConfirmDelete(false);
+								}}>
+								Cancel
+							</button>
 							<button
 								className='submit-btn btn'
 								onClick={() => {
@@ -42,13 +49,7 @@ export default function DeleteTask(props) {
 								}}>
 								Delete Task
 							</button>
-							<button
-								className='cancel-btn btn'
-								onClick={() => {
-									setConfirmDelete(false);
-								}}>
-								Cancel
-							</button>
+							
 						</div>
 					</Modal>,
 					document.body

@@ -7,10 +7,9 @@
 }
 
 .header {
-	display: grid;
+	display: flex;
 	background-color: var(--primary-white);
 	height: 4rem;
-	width:1000px;
 	text-align: center;
 	margin-bottom: 2rem;
 }

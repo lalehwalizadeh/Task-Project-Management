@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import '../components/Styles/UpdateTask.css'
 import '../components/Styles/CreateTask.css'
-import axios from 'axios';
 
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
 export default function UpdateTask(props) {
 	const { id } = useParams();
 	const [values, setValues] = useState({
@@ -19,7 +20,6 @@ export default function UpdateTask(props) {
 		axios
 			.get(`http://localhost:5000/task/${id}`)
 			.then((res) => {
-				console.log('get update form data ', res.data);
 				const dueDate = new Date(res.data.due_date);
 				const formattedDate = dueDate.toISOString().split('T')[0]
 			
@@ -60,10 +60,16 @@ export default function UpdateTask(props) {
 		try {
 			await axios.patch(`http://localhost:5000/update/${id}`, formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
-			});
-			navigate('/dashboard');
+			}
+			);
+			console.log('form data ');
+		navigate('/dashboard')
+			
+			toast('Task updated successfully!')
+			console.log(formData);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
+			
 		}
 	};
 	return (
@@ -135,10 +141,11 @@ export default function UpdateTask(props) {
 						<Link to={'/dashboard'} className='btn cancel-btn'>
 							Cancel
 						</Link>
-						<Link  className='btn submit-btn' to={'/dashboard'}>
+						<button type='submit'  className='btn submit-btn' to={'/dashboard'}>
 							Save Changes
-						</Link>
+						</button>
 					</div>
+						<ToastContainer/> 
 				</form>
 			</div>
 		</>

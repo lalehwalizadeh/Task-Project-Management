@@ -18,6 +18,7 @@ export default function CreateTask() {
 	const [tasks, setTasks] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [searchTask, setSearchTask] = useState('');
+
 	// const [menu,setMenu]=useState(false)
 	const [newTask, setNewTask] = useState({
 		name: '',
@@ -34,10 +35,12 @@ export default function CreateTask() {
 		const response = await axios.get('http://localhost:5000/tasks');
 		setTasks(response.data);
 	};
-	// const filteredTask = tasks.filter((task) => {
-	// 	setSearchTask()
-
-	// });
+	const filteredTask = tasks.filter((task) => {
+		const matchesSearch = task.title
+			.toLowerCase()
+			.includes(searchTask.toLowerCase());
+		return matchesSearch;
+	});
 	const handleInputChange = (e) => {
 		const { name, value, files } = e.target;
 		if (name === 'file') {
@@ -89,7 +92,12 @@ export default function CreateTask() {
 			<div>
 				<div className='dashboard-head'>
 					<div className='d-flex justify-content-between gap-5 mb-0 '>
-						<h3>Tasks</h3>
+						<button
+							className='d-flex gap-2 ad-btn btn border'
+							onClick={() => setIsModalOpen(true)}>
+							<IoMdAddCircleOutline style={{ fontSize: '1.5rem' }} />
+							New
+						</button>
 
 						<select
 							className='filter-tasks'
@@ -114,7 +122,7 @@ export default function CreateTask() {
 				</div>
 			</div>
 			<div className='task-container'>
-				{tasks.map((task) => (
+				{filteredTask.map((task) => (
 					<div key={task.id} className='task-card shadow '>
 						<img
 							className='task-img'
@@ -154,11 +162,6 @@ export default function CreateTask() {
 						</div>
 					</div>
 				))}
-				<div className='create-new-task'>
-					<button className='ad-btn' onClick={() => setIsModalOpen(true)}>
-						<IoMdAddCircleOutline style={{ fontSize: '2rem' }} />
-					</button>
-				</div>
 
 				{isModalOpen &&
 					createPortal(
