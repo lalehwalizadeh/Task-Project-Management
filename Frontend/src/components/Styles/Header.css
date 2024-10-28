@@ -15,9 +15,9 @@
 }
 .head-content {
 	display: flex;
-	/* margin-top: 1rem; */
 	justify-content: space-between;
 	align-items: center;
+	/* width: 1000px; */
 	text-align: center;
 }
 .searchBar-container {

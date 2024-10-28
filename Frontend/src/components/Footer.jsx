@@ -8,7 +8,7 @@ export default function Footer() {
     }
     return (
         <footer style={style}>
-            my social media icons
+             social media icons
         </footer>
     )
 }

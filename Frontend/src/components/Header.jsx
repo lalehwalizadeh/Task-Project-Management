@@ -75,21 +75,20 @@ export default function Header({ searchTask, setSearchTask }) {
 						onChange={(e) => setSearchTask(e.target.value)}
 					/>
 				</div>
+
 				<div>
-					<div>
-						<img
-							src={`http://localhost:5000/uploads/user-profile-placeholder.jpg`}
-							className='user-profile'
-							alt='user-profile-image'
-						/>{' '}
-						{name}
+					<img
+						src={`http://localhost:5000/uploads/user-profile-placeholder.jpg`}
+						className='user-profile'
+						alt='user-profile-image'
+					/>{' '}
+					{name}
 					<button onClick={handleLogout} className='btn'>
 						Log Out
 					</button>
 					<button onClick={handleDeleteAccount} className='btn'>
 						Delete Account
 					</button>
-					</div>
 				</div>
 			</div>
 		</header>

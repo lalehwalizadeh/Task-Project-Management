@@ -19,7 +19,7 @@
 
 
 .filter-tasks {
-	display: flex;
+	/* display: flex; */
 	border: none;
 	border-radius: 1.5rem;
 	background-color: var(--light-purple);

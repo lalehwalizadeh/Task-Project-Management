@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaTrashCan } from 'react-icons/fa6';
 import Modal from './Modal';
 import { createPortal } from 'react-dom';
-import { toast } from 'react-toastify';
+import { toast ,ToastContainer} from 'react-toastify';
 import './Styles/CreateTask.css';
 
 export default function DeleteTask(props) {
@@ -13,7 +13,12 @@ export default function DeleteTask(props) {
 		try {
 			await axios.delete(`http://localhost:5000/delete/task/${props.task.id}`);
 			setConfirmDelete(false);
-			toast.success('Task deleted successfully!');
+			// props.task.filter((t)=>t.id !== props.task.id)
+			<ToastContainer/>
+				toast.error("Task deleted successfully!", { autoClose: 2000 });
+
+			
+			
 		} catch (err) {
 			console.log(err);
 		}

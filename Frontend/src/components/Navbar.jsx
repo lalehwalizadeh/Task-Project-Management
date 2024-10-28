@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Styles/nav.css';
 import { motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
@@ -45,11 +45,25 @@ const nav_routes = [
 ];
 
 export default function Navbar() {
-	const [isOpen, setIsOpen] = useState('false');
+	const [isOpen, setIsOpen] = useState(window.innerWidth>768);
 	const toggle = () => {
 		setIsOpen(!isOpen)
 	}
 	
+	useEffect(() => {
+		const handleResize = () => {
+			if (window.innerWidth <= 768) {
+				setIsOpen(false)
+			} else {
+				setIsOpen(true)
+			}
+		}
+		window.addEventListener('resize', handleResize);
+		handleResize();
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		}
+	},[])
 	return (
 		<div className='nav-design'>
 			<motion.div

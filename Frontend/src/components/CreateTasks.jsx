@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import './Styles/CreateTask.css';
+import './Styles/Dashboard.css';
 import axios from 'axios';
 import Modal from './Modal';
 import Header from './Header';
-import './Styles/CreateTask.css';
-import './Styles/Dashboard.css';
+import DeleteTask from './DeleteTask';
 import { GrFormNext } from 'react-icons/gr';
 import { GrFormPrevious } from 'react-icons/gr';
-// import { CiMenuKebab } from 'react-icons/ci';
 import { IoMdAddCircleOutline } from 'react-icons/io';
+import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { createPortal } from 'react-dom';
-import { SlStar } from 'react-icons/sl';
 import { TbEdit } from 'react-icons/tb';
-import DeleteTask from './DeleteTask';
 
 export default function CreateTask() {
 	const [tasks, setTasks] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [searchTask, setSearchTask] = useState('');
+	const [isCompleted, setIsCompleted] = useState({});
 
 	// const [menu,setMenu]=useState(false)
 	const [newTask, setNewTask] = useState({
@@ -35,12 +35,7 @@ export default function CreateTask() {
 		const response = await axios.get('http://localhost:5000/tasks');
 		setTasks(response.data);
 	};
-	const filteredTask = tasks.filter((task) => {
-		const matchesSearch = task.title
-			.toLowerCase()
-			.includes(searchTask.toLowerCase());
-		return matchesSearch;
-	});
+	
 	const handleInputChange = (e) => {
 		const { name, value, files } = e.target;
 		if (name === 'file') {
@@ -72,7 +67,12 @@ export default function CreateTask() {
 			console.error('task rout error:', err);
 		}
 	};
-
+	const filteredTask = tasks.filter((task) => {
+		const matchesSearch = task.title
+			.toLowerCase()
+			.includes(searchTask.toLowerCase());
+		return matchesSearch;
+	});
 	const typeColor = (type) => {
 		switch (type) {
 			case 'Low':
@@ -84,6 +84,9 @@ export default function CreateTask() {
 			default:
 				return 'black';
 		}
+	};
+	const toggleCompletion = (taskId) => {
+		setIsCompleted((prev) => ({ ...prev, [taskId]: !prev[taskId] }));
 	};
 
 	return (
@@ -115,7 +118,6 @@ export default function CreateTask() {
 							<GrFormPrevious />
 						</button>
 						<button className='btn border bg-white'>
-							{' '}
 							<GrFormNext />
 						</button>
 					</div>
@@ -145,9 +147,21 @@ export default function CreateTask() {
 
 							<div className='edit-delete-icons'>
 								{/* compelet ||incompelet */}
-								<button className='icon-btn-container'>
-									<SlStar style={{ color: '#FFDE21' }} />
+
+								<button
+									className={` status-box ${
+										isCompleted[task.id] ? 'completed' : ''
+									}`}
+									onClick={() => toggleCompletion(task.id)}>
+									{isCompleted[task.id] ? (
+										<>
+											<IoCheckmarkDoneSharp style={{ color: 'green' }} /> Done
+										</>
+									) : (
+										'Todo'
+									)}
 								</button>
+
 								{/* <EditTask /> */}
 								<Link to={`/update/${task.id}`}>
 									<TbEdit style={{ color: '#0077B6' }} />
@@ -157,8 +171,7 @@ export default function CreateTask() {
 								<DeleteTask task={task} />
 							</div>
 
-							{/* <CiMenuKebab onClick={() => setMenu(!menu)} /> 
-							{menu && ''} */}
+							
 						</div>
 					</div>
 				))}
@@ -194,7 +207,6 @@ export default function CreateTask() {
 											required
 										/>
 									</div>
-
 									<div className='mb-3'>
 										<textarea
 											className='form-control'
@@ -203,7 +215,7 @@ export default function CreateTask() {
 											onChange={handleInputChange}
 											rows={2}></textarea>
 									</div>
-									<div style={{ display: 'inline-flex' }}>
+									<div className='d-inline-flex'>
 										<div className='mb-3' style={{ marginRight: '2rem' }}>
 											<input
 												type='file'
