@@ -13,7 +13,7 @@ env.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Middlewares
 app.use(express.json());
 app.use(
 	cors({
@@ -33,7 +33,7 @@ app.use(
 		saveUninitialized: true,
 		cookie: {
 			secure: false,
-			maxAge: 1000  * 60 * 60 * 24,//24 hours
+			maxAge: 1000  * 60 * 60 * 24, //24 hours
 		},
 	})
 );

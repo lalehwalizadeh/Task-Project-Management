@@ -47,42 +47,40 @@ export default function SignUp() {
 		}
 	};
 
-	const handleGoogleLogin = () => {
-		window.open('http://localhost:5000/auth/google', '_self');
-	};
-
-	// useEffect(() => {
-	// 	const checkGoogleLogin = async () => {
-	// 		try {
-	// 			const res = await axios.get(
-	// 				'http://localhost:5000/auth/google/dashboard'
-	// 			);
-	// 			if (res.data.googleLogin) {
-	// 				navigate('/dashboard');
-	// 			}
-	// 		} catch (err) {
-	// 			console.log(err);
-	// 		}
-	// 	};
-	// 	checkGoogleLogin();
-	// }, [navigate]);
+	// const handleGoogleLogin = () => {
+	// 	window.open('http://localhost:5000/auth/google', '_self');
+	// };
 
 	useEffect(() => {
-		axios
-			.get('http://localhost:5000/auth/google/dashboard', {
-				withCredentials: true,
-			})
-			.then((res) => {
+		const checkGoogleLogin = async () => {
+			try {
+				const res = await axios.get(
+					'http://localhost:5000/auth/google/dashboard'
+				);
 				if (res.data.googleLogin) {
 					navigate('/dashboard');
 				}
-			})
-			.catch((err) => {
-				console.log(err, 'what is the error');
-				console.log('Error message:', err.response);
-				console.log('error message:', err.message);
-			});
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		checkGoogleLogin();
 	}, [navigate]);
+
+	// useEffect(() => {
+	// 	axios
+	// 		.get('http://localhost:5000/auth/google/dashboard', {
+	// 			withCredentials: true,
+	// 		})
+	// 		.then((res) => {
+	// 			if (res.data.googleLogin) {
+	// 				navigate('/dashboard');
+	// 			}
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// }, [navigate]);
 
 	return (
 		<>
@@ -157,12 +155,12 @@ export default function SignUp() {
 							Have you already an Account? <Link to='/login'>Login</Link>{' '}
 						</p>
 					</form>
-					<button
+					{/* <button
 						type='button'
 						className='btn btn-default border w-100 text-decoration-none'
 						onClick={handleGoogleLogin}>
 						Login with your Google account
-					</button>
+					</button> */}
 				</div>
 			</div>
 		</>

@@ -4,7 +4,7 @@ import '../components/Styles/UpdateTask.css';
 import '../components/Styles/CreateTask.css';
 
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 export default function UpdateTask(props) {
 	const { id } = useParams();
 	const [values, setValues] = useState({
@@ -60,6 +60,7 @@ export default function UpdateTask(props) {
 			await axios.patch(`http://localhost:5000/update/${id}`, formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
 			});
+			
 			console.log('form data ');
 			navigate('/dashboard');
 
@@ -141,7 +142,6 @@ export default function UpdateTask(props) {
 							Save Changes
 						</button>
 					</div>
-					<ToastContainer />
 				</form>
 			</div>
 		</>

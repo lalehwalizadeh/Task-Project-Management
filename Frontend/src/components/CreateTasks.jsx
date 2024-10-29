@@ -12,13 +12,6 @@ import { createPortal } from 'react-dom';
 import { TbEdit } from 'react-icons/tb';
 
 
-import 'swiper/css';
-import 'swiper/css/grid';
-import 'swiper/css/pagination';
-import 'swiper/swiper-bundle.css';
-
-
-
 export default function CreateTask() {
 	const [tasks, setTasks] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -91,6 +84,7 @@ export default function CreateTask() {
 				return 'black';
 		}
 	};
+	
 	const toggleCompletion = (taskId) => {
 		setIsCompleted((prev) => ({ ...prev, [taskId]: !prev[taskId] }));
 	};

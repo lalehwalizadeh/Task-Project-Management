@@ -11,8 +11,10 @@
 /* Task card styles| task container */
 .task-container {
 	display: grid;
+	/* width: 100%; */
 	grid-template-columns: repeat(3,1fr);
 	gap: 1rem;
+	/* margin: 1rem */
 }
 
 @media(max-width:768px){
@@ -110,8 +112,8 @@
 .mdl-btn-container .submit-btn {
 	display: flex;
 	padding: 0.5rem 2rem;
-	background-color: var(--big-stone);
-	color: var(--light-color);
+	background-color: var(--dark-blue);
+	color: var(--primary-white);
 	justify-content: center;
 	text-align: center;
 }
@@ -119,9 +121,12 @@
 	display: flex;
 	padding: 0.5rem 2rem;
 	background-color: var(--light-purple);
-	color: var(--big-stone);
+	color: var(--dark-blue);
 	justify-content: center;
 	text-align: center;
+}
+.cancel-btn:hover{
+background-color: var(--secondary-purple) !important;
 }
 .mdl-btn-container {
 	display: flex;
@@ -137,8 +142,8 @@
 	background: transparent;
 }
 .mdl-btn-container .submit-btn:hover {
-	background-color: var(--big-stone);
-	color: var(--light-color);
+	background-color: var(--dark-blue);
+	color: var(--primary-white);
 	opacity: 0.8;
 }
 div > button:hover {

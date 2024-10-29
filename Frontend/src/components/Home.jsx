@@ -1,4 +1,3 @@
-import Footer from './Footer';
 import './Styles/Home.css';
 
 import Navbar from './Navbar';
@@ -9,9 +8,7 @@ export default function Home() {
 			<div className='home-layout'>
 				<Navbar />
 
-				{/* <div className='home-head'>
-					 <Header /> 
-				</div> */}
+				
 				<div className='home-container'>
 					<h3> Task | Paoject Management Web Application </h3>
 					<h4> Welcome to Your Ultimate Project Management Solution! </h4>
@@ -79,7 +76,6 @@ export default function Home() {
 					</p>
 				</div>
 			</div>
-			{/* <Footer /> */}
 		</>
 	);
 }

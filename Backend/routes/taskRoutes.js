@@ -82,6 +82,7 @@ router.patch('/update/:id', upload.single('file'), async (req, res) => {
 			`UPDATE tasks SET title = $1,description =$2,type=$3,due_date=$4,image =COALESCE($5,image)WHERE id = $6`,
 			[name, description, type, date, imageUrl, id]
 		);
+		res.status(200).json({message:'task updated!'})
 	} catch {
 		(err) => {
 			console.log(err);
