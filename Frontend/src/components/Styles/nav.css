@@ -7,13 +7,19 @@
 }
 
 .nav-design {
-	
+	position: sticky;
+	top: 0;
+	left: 0;
 	color: var(--primary-white);
 	background-color: var(--dark-blue);
 	height: 100vh;
 	padding: 1rem;
+	z-index: 1000;
 }
 
+.side-bar{
+	height: 100%;
+}
 .logo {
 	font-size: 18px;
 }

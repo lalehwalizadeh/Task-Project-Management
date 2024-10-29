@@ -6,12 +6,18 @@ import axios from 'axios';
 import Modal from './Modal';
 import Header from './Header';
 import DeleteTask from './DeleteTask';
-import { GrFormNext } from 'react-icons/gr';
-import { GrFormPrevious } from 'react-icons/gr';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { createPortal } from 'react-dom';
 import { TbEdit } from 'react-icons/tb';
+
+
+import 'swiper/css';
+import 'swiper/css/grid';
+import 'swiper/css/pagination';
+import 'swiper/swiper-bundle.css';
+
+
 
 export default function CreateTask() {
 	const [tasks, setTasks] = useState([]);
@@ -19,7 +25,7 @@ export default function CreateTask() {
 	const [searchTask, setSearchTask] = useState('');
 	const [isCompleted, setIsCompleted] = useState({});
 
-	// const [menu,setMenu]=useState(false)
+	
 	const [newTask, setNewTask] = useState({
 		name: '',
 		date: '',
@@ -30,12 +36,12 @@ export default function CreateTask() {
 	useEffect(() => {
 		fetchTasks();
 	}, []);
-
+	axios.defaults.withCredentials = true;
 	const fetchTasks = async () => {
 		const response = await axios.get('http://localhost:5000/tasks');
 		setTasks(response.data);
 	};
-	
+
 	const handleInputChange = (e) => {
 		const { name, value, files } = e.target;
 		if (name === 'file') {
@@ -89,6 +95,9 @@ export default function CreateTask() {
 		setIsCompleted((prev) => ({ ...prev, [taskId]: !prev[taskId] }));
 	};
 
+	const handleDeleteTask = (taskId) => {
+		setTasks((prevTask)=>prevTask.filter(task=>task.id!==taskId))
+	}
 	return (
 		<>
 			<Header searchTask={searchTask} setSearchTask={setSearchTask} />
@@ -102,80 +111,65 @@ export default function CreateTask() {
 							New
 						</button>
 
-						<select
-							className='filter-tasks'
-							aria-label='Default select example'>
-							<option>All Tasks</option>
-							<option>High tasks</option>
-							<option>Medium tasks</option>
-							<option>Low tasks</option>
-							<option>Compeleted tasks</option>
-							<option>Incompeleted tasks</option>
-						</select>
+					
 					</div>
-					<div className='gap-2'>
-						<button className='btn border bg-white'>
-							<GrFormPrevious />
-						</button>
-						<button className='btn border bg-white'>
-							<GrFormNext />
-						</button>
-					</div>
+					
 				</div>
 			</div>
 			<div className='task-container'>
 				{filteredTask.map((task) => (
-					<div key={task.id} className='task-card shadow '>
-						<img
-							className='task-img'
-							src={`http://localhost:5000/uploads/${task.image}`}
-							alt={task.name || 'task Image'}
-						/>
-						<h6 className='task-title'>{task.title}</h6>
-						<p> {task.description}</p>
-						<p>
-							{new Date(task.due_date).toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: '2-digit',
-								day: '2-digit',
-							})}
-						</p>
-						<div className='task-btn-container'>
-							<p className='task-type' style={typeColor(task.type)}>
-								{task.type}{' '}
-							</p>
+				
+						
+							<div key={task.id} className='task-card shadow '>
+								<img
+									className='task-img'
+									src={`http://localhost:5000/uploads/${task.image}`}
+									alt={task.name || 'task Image'}
+								/>
+								<h6 className='task-title'>{task.title}</h6>
+								<p> {task.description}</p>
+								<p>
+									{new Date(task.due_date).toLocaleDateString('en-US', {
+										year: 'numeric',
+										month: '2-digit',
+										day: '2-digit',
+									})}
+								</p>
+								<div className='task-btn-container'>
+									<p className='task-type' style={typeColor(task.type)}>
+										{task.type}{' '}
+									</p>
 
-							<div className='edit-delete-icons'>
-								{/* compelet ||incompelet */}
+									<div className='edit-delete-icons'>
+										{/* compelet ||incompelet */}
 
-								<button
-									className={` status-box ${
-										isCompleted[task.id] ? 'completed' : ''
-									}`}
-									onClick={() => toggleCompletion(task.id)}>
-									{isCompleted[task.id] ? (
-										<>
-											<IoCheckmarkDoneSharp style={{ color: 'green' }} /> Done
-										</>
-									) : (
-										'Todo'
-									)}
-								</button>
+										<button
+											className={` status-box ${
+												isCompleted[task.id] ? 'completed' : ''
+											}`}
+											onClick={() => toggleCompletion(task.id)}>
+											{isCompleted[task.id] ? (
+												<>
+													<IoCheckmarkDoneSharp style={{ color: 'green' }} />{' '}
+													Done
+												</>
+											) : (
+												'Todo'
+											)}
+										</button>
 
-								{/* <EditTask /> */}
-								<Link to={`/update/${task.id}`}>
-									<TbEdit style={{ color: '#0077B6' }} />
-								</Link>
-								{/* Delete task */}
+										{/* <EditTask /> */}
+										<Link to={`/update/${task.id}`}>
+											<TbEdit style={{ color: '#0077B6' }} />
+										</Link>
+										{/* Delete task */}
 
-								<DeleteTask task={task} />
+										<DeleteTask task={task} onDelete={handleDeleteTask} />
+									</div>
+								</div>
 							</div>
-
-							
-						</div>
-					</div>
+					
 				))}
-
 				{isModalOpen &&
 					createPortal(
 						<Modal

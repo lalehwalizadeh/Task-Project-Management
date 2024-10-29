@@ -7,14 +7,26 @@
 
 }
 
+
 /* Task card styles| task container */
 .task-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(230px, 2fr));
+	grid-template-columns: repeat(3,1fr);
 	gap: 1rem;
-	margin: 1rem
 }
 
+@media(max-width:768px){
+	.task-container{
+		grid-template-columns: 1fr;
+
+	}
+}
+@media(min-width:600px) and (max-width:850px){
+	.task-container{
+		grid-template-columns: repeat(2,1fr);
+
+	}
+}
 .task-card {
 	display: grid;
 	justify-content: center;

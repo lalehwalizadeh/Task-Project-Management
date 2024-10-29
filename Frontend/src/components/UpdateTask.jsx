@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import '../components/Styles/UpdateTask.css'
-import '../components/Styles/CreateTask.css'
+import '../components/Styles/UpdateTask.css';
+import '../components/Styles/CreateTask.css';
 
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
@@ -21,8 +21,8 @@ export default function UpdateTask(props) {
 			.get(`http://localhost:5000/task/${id}`)
 			.then((res) => {
 				const dueDate = new Date(res.data.due_date);
-				const formattedDate = dueDate.toISOString().split('T')[0]
-			
+				const formattedDate = dueDate.toISOString().split('T')[0];
+
 				setValues({
 					name: res.data.title || '',
 					date: formattedDate || '',
@@ -38,7 +38,6 @@ export default function UpdateTask(props) {
 		const { name, value, files } = e.target;
 		if (name === 'file') {
 			setValues({ ...values, [name]: files[0] });
-		
 		} else if (name === 'type') {
 			setValues({
 				...values,
@@ -53,23 +52,21 @@ export default function UpdateTask(props) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const formData = new FormData();
-		console.log('update form data', formData);
+		console.log('submiting form data', formData);
 		Object.keys(values).forEach((key) => {
 			formData.append(key, values[key]);
 		});
 		try {
 			await axios.patch(`http://localhost:5000/update/${id}`, formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
-			}
-			);
+			});
 			console.log('form data ');
-		navigate('/dashboard')
-			
-			toast('Task updated successfully!')
+			navigate('/dashboard');
+
+			toast('Task updated successfully!');
 			console.log(formData);
 		} catch (err) {
-			console.error(err);
-			
+			console.log('not navigating to dashboard', err);
 		}
 	};
 	return (
@@ -90,7 +87,6 @@ export default function UpdateTask(props) {
 					</div>
 					<div className='mb-3'>
 						<input
-							
 							className='form-control'
 							name='date'
 							value={values.date}
@@ -141,11 +137,11 @@ export default function UpdateTask(props) {
 						<Link to={'/dashboard'} className='btn cancel-btn'>
 							Cancel
 						</Link>
-						<button type='submit'  className='btn submit-btn' to={'/dashboard'}>
+						<button type='submit' className='btn submit-btn' to={'/dashboard'}>
 							Save Changes
 						</button>
 					</div>
-						<ToastContainer/> 
+					<ToastContainer />
 				</form>
 			</div>
 		</>

@@ -1,34 +1,18 @@
 :root {
-	/* new colors */
+	
 	--light-purple: #e8d9ec;
 	--primary-white: #f8f8f8;
 	--pure-white: #ffffff;
 	--dark-blue: #181d31;
-	/* old colors */
+	
 
-	--meduim-color: #b4cecf;
-	--main-color: #70788d;
-	--dark-color: #4d5361;
-	--cod-gray: #121211;
-	--big-stone: #141c30;
-	--smalt-blue: #5b808f;
-	--river-bed: #3f4954;
 
-	--yellow-sea: #fbb204;
-	--medium-purple: #9374db;
-	--cornflower: #8ccbe3;
-	--affair: #634082;
-	--mischka: #e7e2ea;
-	--spicy-mustard: #846213;
-	--bermuda: #84bcdc;
-	--biloba-flower: #ac98eb;
-	--envy: #94a491;
 }
 
 .formContainer {
 	display: grid;
-	justify-content: center;
-	align-items: center;
+	justify-self: center;
+	align-self: center;
 	border-radius: 5px;
 	background-color: var(--pure-white);
 	padding: 1rem;

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaTrashCan } from 'react-icons/fa6';
 import Modal from './Modal';
 import { createPortal } from 'react-dom';
-import { toast ,ToastContainer} from 'react-toastify';
+import { toast } from 'react-toastify';
 import './Styles/CreateTask.css';
 
 export default function DeleteTask(props) {
@@ -13,12 +13,8 @@ export default function DeleteTask(props) {
 		try {
 			await axios.delete(`http://localhost:5000/delete/task/${props.task.id}`);
 			setConfirmDelete(false);
-			// props.task.filter((t)=>t.id !== props.task.id)
-			<ToastContainer/>
-				toast.error("Task deleted successfully!", { autoClose: 2000 });
-
-			
-			
+			props.onDelete(props.task.id);
+			toast.error('Task deleted successfully!', { autoClose: 2000 });
 		} catch (err) {
 			console.log(err);
 		}
@@ -40,7 +36,7 @@ export default function DeleteTask(props) {
 						}}>
 						<p> Are you sure you want to delete this task?</p>
 						<div className='dlt-mdl-btn mdl-btn-container'>
-						<button
+							<button
 								className='cancel-btn btn'
 								onClick={() => {
 									setConfirmDelete(false);
@@ -54,7 +50,6 @@ export default function DeleteTask(props) {
 								}}>
 								Delete Task
 							</button>
-							
 						</div>
 					</Modal>,
 					document.body

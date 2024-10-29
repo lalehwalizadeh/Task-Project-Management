@@ -4,9 +4,11 @@ import { motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
 import { FaBars, FaHome } from 'react-icons/fa';
 import {RiDashboard3Line} from 'react-icons/ri'
-import { IoNotifications,IoSettingsSharp, IoLogoBuffer} from "react-icons/io5";
+import { IoLogoBuffer} from "react-icons/io5";
 import {MdTaskAlt} from 'react-icons/md'
-import { CgProfile } from "react-icons/cg"
+// import { CgProfile } from "react-icons/cg";
+import { LuLogIn } from 'react-icons/lu';
+import {SiGnuprivacyguard} from 'react-icons/si'
 
 const nav_routes = [
 	{
@@ -25,21 +27,14 @@ const nav_routes = [
 		icon: <RiDashboard3Line />,
 	},
 	{
-		path: '/',
-		name: 'Notifications',
-		icon: <IoNotifications />,
-	},
-	
-	{
 		path: '/signup',
-		name: 'Profile',
-		icon: <CgProfile />,
+		name: 'Signup',
+		icon: <SiGnuprivacyguard />,
 	},
-	
 	{
-		path: '/',
-		name: 'Setting',
-		icon: <IoSettingsSharp />,
+		path: '/login',
+		name: 'Login',
+		icon: <LuLogIn />,
 	},
 	
 ];
@@ -64,6 +59,7 @@ export default function Navbar() {
 			window.removeEventListener('resize', handleResize);
 		}
 	},[])
+	
 	return (
 		<div className='nav-design'>
 			<motion.div

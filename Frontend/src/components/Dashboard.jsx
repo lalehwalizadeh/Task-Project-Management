@@ -11,7 +11,7 @@ export default function Dashboard() {
 					<Navbar />
 				</div>
 
-				<div>
+				<div className='dashboard-content'>
 					<CreateTask />
 				</div>
 			</div>

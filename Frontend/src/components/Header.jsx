@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Styles/nav.css';
 import './Styles/Header.css';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaAngleUp, FaAngleDown } from 'react-icons/fa';
+import { MdOutlineLogout,MdGroupRemove } from 'react-icons/md';
 
 export default function Header({ searchTask, setSearchTask }) {
 	const [name, setName] = useState('');
-
+	const [isOpenSetting, setIsOpenSetting] = useState(false);
 	const navigate = useNavigate();
 
 	axios.defaults.withCredentials = true;
@@ -59,6 +60,9 @@ export default function Header({ searchTask, setSearchTask }) {
 			}
 		}
 	};
+	const toggleSetting = () => {
+		setIsOpenSetting((prev) => !prev);
+	};
 
 	return (
 		<header className='header'>
@@ -81,14 +85,26 @@ export default function Header({ searchTask, setSearchTask }) {
 						src={`http://localhost:5000/uploads/user-profile-placeholder.jpg`}
 						className='user-profile'
 						alt='user-profile-image'
-					/>{' '}
+					/>
+					<span style={{textTransform:'capitalize',margin:'4px'}}>
+
 					{name}
-					<button onClick={handleLogout} className='btn'>
-						Log Out
-					</button>
-					<button onClick={handleDeleteAccount} className='btn'>
-						Delete Account
-					</button>
+					</span>
+					<span onClick={toggleSetting} style={{ cursor: 'pointer' }}>
+						{isOpenSetting ? <FaAngleDown /> : <FaAngleUp />}
+					</span>
+					<span>
+						{isOpenSetting && (
+							<div className={` dropdown ${isOpenSetting ?'open' : ''}`}>
+								<button onClick={handleLogout} className='btn '>
+									 Log Out
+								</button>
+								<button onClick={handleDeleteAccount} className='btn '>
+									 Delete Account
+								</button>
+							</div>
+						)}
+					</span>
 				</div>
 			</div>
 		</header>
