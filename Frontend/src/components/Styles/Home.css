@@ -1,13 +1,9 @@
 :root {
-	--head-color:#CEA0AA;
+	--head-color: #cea0aa;
 	--light-color: #fefefd;
 	--main-color: #70788d;
 	--dark-color: #4d5361;
-	
-	
 }
-
-
 
 .home-layout {
 	display: flex;
@@ -17,14 +13,18 @@
 	box-sizing: border-box;
 	margin: 1.5rem;
 	padding: 1.5rem;
-	text-align: justify;
+}
+@media (min-width: 768px) {
+	.home-container {
+		text-align: justify;
+	}
 }
 .home-container h4 {
 	font-weight: 600;
 	margin-top: 3rem;
 	color: var(--head-color);
 }
-.home-head{
+.home-head {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -36,5 +36,4 @@
 	font-weight: 600;
 	margin: 10px;
 	padding: 16px;
-
 }
