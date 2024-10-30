@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css'
 
 
-// import './components/Styles/Home.css'
 import './index.css';
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

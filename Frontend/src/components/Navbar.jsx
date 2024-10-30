@@ -6,7 +6,7 @@ import { FaBars, FaHome } from 'react-icons/fa';
 import {RiDashboard3Line} from 'react-icons/ri'
 import { IoLogoBuffer} from "react-icons/io5";
 import {MdTaskAlt} from 'react-icons/md'
-// import { CgProfile } from "react-icons/cg";
+
 import { LuLogIn } from 'react-icons/lu';
 import {SiGnuprivacyguard} from 'react-icons/si'
 
@@ -84,12 +84,7 @@ export default function Navbar() {
 						</NavLink>
 					))}
 				</section>
-				<div></div>
-				{/* <div className='btn-container'>
-					<Link className='regs' to='/SignUp'>
-						Registration
-					</Link>
-				</div> */}
+				
 			</motion.div>
 		</div>
 	);

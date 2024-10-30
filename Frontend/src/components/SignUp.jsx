@@ -34,7 +34,7 @@ export default function SignUp() {
 			!validationError.password
 		) {
 			try {
-				const res = await axios.post('http://localhost:5000/signup', formData);
+				const res = await axios.post('https://task-project-management.onrender.com/signup', formData);
 				if (res.data.Signup) {
 					navigate('/dashboard');
 				} else {
@@ -48,14 +48,14 @@ export default function SignUp() {
 	};
 
 	// const handleGoogleLogin = () => {
-	// 	window.open('http://localhost:5000/auth/google', '_self');
+	// 	window.open('https://task-project-management.onrender.com/auth/google', '_self');
 	// };
 
 	useEffect(() => {
 		const checkGoogleLogin = async () => {
 			try {
 				const res = await axios.get(
-					'http://localhost:5000/auth/google/dashboard'
+					'https://task-project-management.onrender.com/auth/google/dashboard'
 				);
 				if (res.data.googleLogin) {
 					navigate('/dashboard');
@@ -69,7 +69,7 @@ export default function SignUp() {
 
 	// useEffect(() => {
 	// 	axios
-	// 		.get('http://localhost:5000/auth/google/dashboard', {
+	// 		.get('https://task-project-management.onrender.com/auth/google/dashboard', {
 	// 			withCredentials: true,
 	// 		})
 	// 		.then((res) => {

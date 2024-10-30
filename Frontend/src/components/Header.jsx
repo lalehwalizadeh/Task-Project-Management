@@ -5,7 +5,6 @@ import axios from 'axios';
 import './Styles/nav.css';
 import './Styles/Header.css';
 import { FaSearch, FaAngleUp, FaAngleDown } from 'react-icons/fa';
-import { MdOutlineLogout,MdGroupRemove } from 'react-icons/md';
 
 export default function Header({ searchTask, setSearchTask }) {
 	const [name, setName] = useState('');
@@ -17,7 +16,7 @@ export default function Header({ searchTask, setSearchTask }) {
 	useEffect(() => {
 		const checkAuth = async () => {
 			try {
-				const res = await axios.get('http://localhost:5000/dashboard');
+				const res = await axios.get('https://task-project-management.onrender.com/dashboard');
 				if (res.data.valid) {
 					setName(res.data.username);
 				} else {
@@ -35,7 +34,7 @@ export default function Header({ searchTask, setSearchTask }) {
 		const confirmLogout = window.confirm('Are you sure you want to Log out?');
 		if (confirmLogout) {
 			try {
-				await axios.get('http://localhost:5000/logout');
+				await axios.get('https://task-project-management.onrender.com/logout');
 				navigate('/'); // Redirect to the home page after log out
 			} catch (err) {
 				console.log(err);
@@ -49,7 +48,7 @@ export default function Header({ searchTask, setSearchTask }) {
 		);
 		if (confirmDelete) {
 			try {
-				const res = await axios.delete('http://localhost:5000/delete-account', {
+				const res = await axios.delete('https://task-project-management.onrender.com/delete-account', {
 					withCredentials: true,
 				});
 				if (res.data.dltMessage) {
@@ -82,7 +81,7 @@ export default function Header({ searchTask, setSearchTask }) {
 
 				<div>
 					<img
-						src={`http://localhost:5000/uploads/user-profile-placeholder.jpg`}
+						src={`https://task-project-management.onrender.com/uploads/user-profile-placeholder.jpg`}
 						className='user-profile'
 						alt='user-profile-image'
 					/>
