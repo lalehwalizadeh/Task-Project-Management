@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
 	session({
-		secret: process.env.AWS_ACCESS_KEY,
+		secret: process.env.AWS_ACCESS_KEY_ID,
 		resave: false,
 		saveUninitialized: true,
 		cookie: {
