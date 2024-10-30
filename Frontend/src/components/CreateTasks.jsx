@@ -31,8 +31,15 @@ export default function CreateTask() {
 	}, []);
 	axios.defaults.withCredentials = true;
 	const fetchTasks = async () => {
-		const response = await axios.get('http://localhost:5000/tasks');
-		setTasks(response.data);
+		try {
+			const response = await axios.get('http://localhost:5000/tasks', {
+				withCredentials: true // Important for sending cookies
+			});
+			setTasks(response.data);
+		} catch (error) {
+			
+		}
+
 	};
 
 	const handleInputChange = (e) => {
@@ -84,7 +91,7 @@ export default function CreateTask() {
 				return 'black';
 		}
 	};
-	
+
 	const toggleCompletion = (taskId) => {
 		setIsCompleted((prev) => ({ ...prev, [taskId]: !prev[taskId] }));
 	};

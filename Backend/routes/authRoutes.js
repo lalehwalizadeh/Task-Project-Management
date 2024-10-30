@@ -38,15 +38,15 @@ router.get(
 	}
 );
 
-router.get('/auth/google/dashboard',
+// router.get('/auth/google/dashboard',
 
-	(req, res) => {
-	if (req.session.user) {
-		return res.json({ googleLogin: true });
-	} else {
-		return res.json({ googleLogin: false });
-	}
-});
+// 	(req, res) => {
+// 	if (req.session.user) {
+// 		return res.json({ googleLogin: true });
+// 	} else {
+// 		return res.json({ googleLogin: false });
+// 	}
+// });
 
 // Registration
 router.post('/signup', async (req, res) => {
@@ -88,6 +88,7 @@ router.post('/login', async (req, res) => {
 
 			if (isMatch) {
 				req.session.user = {
+					id:user.id,
 					name: user.name,
 					email: user.email,
 				};
