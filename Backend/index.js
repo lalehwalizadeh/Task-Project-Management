@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middlewares
 app.use(express.json());
+
 app.use(
 	cors({
 		origin: ['https://task-project-management.vercel.app'],
@@ -26,13 +27,14 @@ app.use(
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 app.use(
 	session({
 		secret: process.env.AWS_ACCESS_KEY_ID,
 		resave: false,
 		saveUninitialized: true,
 		cookie: {
-			secure: false,
+			secure: true,
 			maxAge: 1000  * 60 * 60 * 24, //24 hours
 		},
 	})
