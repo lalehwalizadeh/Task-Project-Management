@@ -38,7 +38,7 @@ app.use(
 			secure: true,
 			sameSite: 'none',
 			maxAge: 48 * 60 * 60 * 1000, //24 hours
-			domain: '.vercel.app',
+			domain:'https://task-project-management.vercel.app',
 		},
 	})
 );
