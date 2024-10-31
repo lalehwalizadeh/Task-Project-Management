@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import env from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
-import taskRoutes from './routes/taskRoutes.js'
+import taskRoutes from './routes/taskRoutes.js';
 import db from './db.mjs';
 
 env.config();
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(
 	cors({
 		origin: ['https://task-project-management.vercel.app'],
-		methods: ['POST', 'GET', 'DELETE', 'PUT','PATCH'],
+		methods: ['POST', 'GET', 'DELETE', 'PUT', 'PATCH'],
 		credentials: true,
 		allowedHeaders: ['Content-Type', 'Authorization'],
 	})
@@ -33,12 +33,12 @@ app.use(
 		secret: process.env.AWS_ACCESS_KEY_ID,
 		resave: false,
 		saveUninitialized: false,
-		proxy:true,
+		proxy: true,
 		cookie: {
 			secure: true,
-			sameSite:'none',
-			maxAge: 1000 * 60 * 60 * 24, //24 hours
-			domain: '.vercel.app'
+			sameSite: 'none',
+			maxAge: 48 * 60 * 60 * 1000, //24 hours
+			domain: '.vercel.app',
 		},
 	})
 );
