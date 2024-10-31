@@ -1,52 +1,32 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import passport from 'passport';
 import db from '../db.mjs';
 
 const router = express.Router();
 const saltRound = 10;
 
-router.get('/dashboard', (req, res) => {
-	if (req.session.user) {
-		return res.json({ valid: true, username: req.session.user.name });
+const checkAuth = (req, res, next) => {
+	if (!req.session.user || !req.session ) {
+		return res.status(401).json({ message: 'Unauthorized' });
+	}
+	next();
+};
+
+
+router.get('/dashboard',checkAuth, (req, res) => {
+	if (req.session.user && req.session) {
+		return res.json({
+			valid: true,
+			username: req.session.user.name,
+			email: req.session.user.email,
+			userId: req.session.user.id,
+		});
 	} else {
 		return res.json({ valid: false });
 	}
 });
 
-// Google login
-router.get(
-	'/auth/google',
-	passport.authenticate('google', {
-		scope: ['profile', 'email'],
-	})
-);
-
-router.get(
-	'/auth/google/dashboard',
-	passport.authenticate('google', {
-		failureRedirect: '/login',
-	}),
-	(req, res) => {
-		req.session.user = {
-			// Storing user info in session
-			name: req.user.displayName,
-			email: req.user.emails[0].value,
-		};
-		res.json({ googleLogin: true }); // Redirect to dashboard after successful login
-	}
-);
-
-// router.get('/auth/google/dashboard',
-
-// 	(req, res) => {
-// 	if (req.session.user) {
-// 		return res.json({ googleLogin: true });
-// 	} else {
-// 		return res.json({ googleLogin: false });
-// 	}
-// });
 
 // Registration
 router.post('/signup', async (req, res) => {
@@ -88,10 +68,16 @@ router.post('/login', async (req, res) => {
 
 			if (isMatch) {
 				req.session.user = {
-					id:user.id,
+					id: user.id,
 					name: user.name,
 					email: user.email,
 				};
+				req.session.save((err) => {
+					if (err) {
+						console.log('session save err', err);
+						return res.status(500).json({ message: 'Session Error' });
+					}
+				});
 				return res.json({ Login: true });
 			}
 			return res.json({ errMessage: true });
@@ -103,42 +89,6 @@ router.post('/login', async (req, res) => {
 	}
 });
 
-// Google strategy
-passport.use(
-	'google',
-	new GoogleStrategy(
-		{
-			clientID: process.env.GOOGLE_CLIENT_ID,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-			callbackURL: 'http://localhost:5000/auth/google/dashboard', // Use the correct port here
-			userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
-		},
-		async (accessToken, refreshToken, profile, cb) => {
-			try {
-				console.log('google profile', profile);
-				if (!profile.emails || profile.emails.length === 0) {
-					return cd(new Error('no email found in'));
-				}
-				const email = profile.emails[0].value;
-				const result = await db.query('SELECT * FROM users WHERE email = $1', [
-					email,
-				]);
-
-				if (result.rows.length === 0) {
-					const newUser = await db.query(
-						'INSERT INTO users (email, name) VALUES ($1, $2) RETURNING *',
-						[email, profile.displayName, 'google']
-					);
-					return cb(null, newUser.rows[0]);
-				} else {
-					return cb(null, result.rows[0]);
-				}
-			} catch (err) {
-				return cb(err);
-			}
-		}
-	)
-);
 
 passport.serializeUser((user, cb) => {
 	cb(null, user);

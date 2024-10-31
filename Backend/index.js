@@ -32,10 +32,13 @@ app.use(
 	session({
 		secret: process.env.AWS_ACCESS_KEY_ID,
 		resave: false,
-		saveUninitialized: true,
+		saveUninitialized: false,
+		proxy:true,
 		cookie: {
 			secure: true,
-			maxAge: 1000  * 60 * 60 * 24, //24 hours
+			sameSite:'none',
+			maxAge: 1000 * 60 * 60 * 24, //24 hours
+			domain: '.vercel.app'
 		},
 	})
 );
