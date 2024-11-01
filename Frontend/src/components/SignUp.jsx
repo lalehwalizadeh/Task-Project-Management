@@ -34,7 +34,7 @@ export default function SignUp() {
 			!validationError.password
 		) {
 			try {
-				const res = await axios.post('https://task-project-management-2.onrender.com//signup', formData);
+				const res = await axios.post('https://task-project-management-2.onrender.com/signup', formData);
 				if (res.data.Signup) {
 					navigate('/dashboard');
 				} else {
