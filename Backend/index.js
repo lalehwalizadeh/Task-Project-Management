@@ -10,7 +10,7 @@ import env from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import db from './db.mjs';
-import RedisStore from 'connect-redis';
+// import RedisStore from 'connect-redis';
 
 env.config();
 const app = express();

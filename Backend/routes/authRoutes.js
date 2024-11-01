@@ -1,6 +1,5 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import passport, { session } from 'passport';
 import db from '../db.mjs';
 
 const router = express.Router();
