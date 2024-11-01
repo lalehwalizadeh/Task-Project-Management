@@ -16,7 +16,7 @@ export default function LoginValidation(values) {
         error.password = "Password should not be empty";
     }
   
-    // }
+  
     else {
         error.password = "";
     }

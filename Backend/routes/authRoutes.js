@@ -7,14 +7,13 @@ const router = express.Router();
 const saltRound = 10;
 
 const checkAuth = (req, res, next) => {
-	if (!req.session.user || !req.session ) {
+	if (!req.session.user || !req.session) {
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
 	next();
 };
 
-
-router.get('/dashboard',checkAuth, (req, res) => {
+router.get('/dashboard', checkAuth, (req, res) => {
 	if (req.session.user && req.session) {
 		return res.json({
 			valid: true,
@@ -26,7 +25,6 @@ router.get('/dashboard',checkAuth, (req, res) => {
 		return res.json({ valid: false });
 	}
 });
-
 
 // Registration
 router.post('/signup', async (req, res) => {
@@ -58,14 +56,12 @@ router.post('/login', async (req, res) => {
 	const { email, password } = req.body;
 
 	try {
-		const result = await db.query('SELECT * FROM users WHERE email = $1', [
-			email,
-		]);
+		const result = await db.query('SELECT * FROM users WHERE email = $1', [email,]);
 
 		if (result.rows.length > 0) {
 			const user = result.rows[0];
 			const isMatch = await bcrypt.compare(password, user.password);
-
+console.log('is there any user in session?',req.session.user);
 			if (isMatch) {
 				req.session.user = {
 					id: user.id,
@@ -88,7 +84,6 @@ router.post('/login', async (req, res) => {
 		return res.status(500).json({ Message: 'Server Error' });
 	}
 });
-
 
 passport.serializeUser((user, cb) => {
 	cb(null, user);

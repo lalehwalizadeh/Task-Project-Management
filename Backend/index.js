@@ -31,15 +31,16 @@ app.use(cookieParser());
 app.use(
 	session({
 		secret: process.env.AWS_ACCESS_KEY_ID,
-		resave: false,
+		resave: true,
 		saveUninitialized: false,
 		proxy: true,
 		cookie: {
 			secure: true,
 			sameSite: 'none',
-			maxAge: 48 * 60 * 60 * 1000, //24 hours
+			maxAge: 48 * 60 * 60 * 1000, // 48 hours
 			domain:'https://task-project-management.vercel.app',
 		},
+	
 	})
 );
 
