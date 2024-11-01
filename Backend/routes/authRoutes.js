@@ -94,9 +94,7 @@ router.post('/login', async (req, res) => {
 	}
 });
 
-passport.serializeUser((user, cb) => {
-	cb(null, user);
-});
+
 
 // Logout route
 router.get('/logout', (req, res) => {
