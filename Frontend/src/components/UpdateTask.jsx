@@ -18,7 +18,7 @@ export default function UpdateTask(props) {
 
 	useEffect(() => {
 		axios
-			.get(`https://task-project-management.onrender.com/task/${id}`)
+			.get(`https://task-project-management-2.onrender.com/task/${id}`)
 			.then((res) => {
 				const dueDate = new Date(res.data.due_date);
 				const formattedDate = dueDate.toISOString().split('T')[0];
@@ -57,7 +57,7 @@ export default function UpdateTask(props) {
 			formData.append(key, values[key]);
 		});
 		try {
-			await axios.patch(`https://task-project-management.onrender.com/update/${id}`, formData, {
+			await axios.patch(`https://task-project-management-2.onrender.com/update/${id}`, formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
 			});
 			
@@ -116,7 +116,7 @@ export default function UpdateTask(props) {
 							/>
 							<img
 								className='task-img'
-								src={`https://task-project-management.onrender.com/task/${values.image}`}
+								src={`https://task-project-management-2.onrender.com/task/${values.image}`}
 								alt={values.name || 'task Image'}
 							/>
 						</div>

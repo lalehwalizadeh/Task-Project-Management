@@ -27,7 +27,7 @@ export default function Login() {
 
 	useEffect(() => {
 		axios
-			.get('https://task-project-management.onrender.com/dashboard')
+			.get('https://task-project-management-2.onrender.com//dashboard')
 			.then((res) => {
 				if (res.data.valid) {
 					navigate('/dashboard');
@@ -42,7 +42,7 @@ export default function Login() {
 		setErrors(validationError);
 		if (!validationError.email && !validationError.password) {
 			try {
-				const res = await axios.post('https://task-project-management.onrender.com/login', formData);
+				const res = await axios.post('https://task-project-management-2.onrender.com//login', formData);
 				if (res.data.Login) {
 					console.log(res.data.Login);
 					navigate('/dashboard');

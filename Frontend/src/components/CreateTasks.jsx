@@ -32,7 +32,7 @@ export default function CreateTask() {
 	axios.defaults.withCredentials = true;
 	const fetchTasks = async () => {
 		try {
-			const response = await axios.get('https://task-project-management.onrender.com/tasks', {
+			const response = await axios.get('https://task-project-management-2.onrender.com//tasks', {
 				withCredentials: true // Important for sending cookies
 			});
 			setTasks(response.data);
@@ -63,7 +63,7 @@ export default function CreateTask() {
 			formData.append(key, newTask[key]);
 		});
 		try {
-			await axios.post('https://task-project-management.onrender.com/submit/task', formData, {
+			await axios.post('https://task-project-management-2.onrender.com//submit/task', formData, {
 				headers: { 'Content-type': 'multipart/form-data' },
 			});
 
@@ -124,7 +124,7 @@ export default function CreateTask() {
 							<div key={task.id} className='task-card shadow '>
 								<img
 									className='task-img'
-									src={`https://task-project-management.onrender.com/uploads/${task.image}`}
+									src={`https://task-project-management-2.onrender.com//uploads/${task.image}`}
 									alt={task.name || 'task Image'}
 								/>
 								<h6 className='task-title'>{task.title}</h6>

@@ -16,7 +16,7 @@ export default function Header({ searchTask, setSearchTask }) {
 	useEffect(() => {
 		const checkAuth = async () => {
 			try {
-				const res = await axios.get('https://task-project-management.onrender.com/dashboard');
+				const res = await axios.get('https://task-project-management-2.onrender.com//dashboard');
 				if (res.data.valid) {
 					setName(res.data.username);
 				} else {
@@ -34,7 +34,7 @@ export default function Header({ searchTask, setSearchTask }) {
 		const confirmLogout = window.confirm('Are you sure you want to Log out?');
 		if (confirmLogout) {
 			try {
-				await axios.get('https://task-project-management.onrender.com/logout');
+				await axios.get('https://task-project-management-2.onrender.com//logout');
 				navigate('/'); // Redirect to the home page after log out
 			} catch (err) {
 				console.log(err);
@@ -48,7 +48,7 @@ export default function Header({ searchTask, setSearchTask }) {
 		);
 		if (confirmDelete) {
 			try {
-				const res = await axios.delete('https://task-project-management.onrender.com/delete-account', {
+				const res = await axios.delete('https://task-project-management-2.onrender.com//delete-account', {
 					withCredentials: true,
 				});
 				if (res.data.dltMessage) {
@@ -81,7 +81,7 @@ export default function Header({ searchTask, setSearchTask }) {
 
 				<div>
 					<img
-						src={`https://task-project-management.onrender.com/uploads/user-profile-placeholder.jpg`}
+						src={`https://task-project-management-2.onrender.com//uploads/user-profile-placeholder.jpg`}
 						className='user-profile'
 						alt='user-profile-image'
 					/>

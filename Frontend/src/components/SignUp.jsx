@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
 import { IoMdArrowRoundBack } from 'react-icons/io';
@@ -34,7 +34,7 @@ export default function SignUp() {
 			!validationError.password
 		) {
 			try {
-				const res = await axios.post('https://task-project-management.onrender.com/signup', formData);
+				const res = await axios.post('https://task-project-management-2.onrender.com//signup', formData);
 				if (res.data.Signup) {
 					navigate('/dashboard');
 				} else {
@@ -47,40 +47,6 @@ export default function SignUp() {
 		}
 	};
 
-	// const handleGoogleLogin = () => {
-	// 	window.open('https://task-project-management.onrender.com/auth/google', '_self');
-	// };
-
-	useEffect(() => {
-		const checkGoogleLogin = async () => {
-			try {
-				const res = await axios.get(
-					'https://task-project-management.onrender.com/auth/google/dashboard'
-				);
-				if (res.data.googleLogin) {
-					navigate('/dashboard');
-				}
-			} catch (err) {
-				console.log(err);
-			}
-		};
-		checkGoogleLogin();
-	}, [navigate]);
-
-	// useEffect(() => {
-	// 	axios
-	// 		.get('https://task-project-management.onrender.com/auth/google/dashboard', {
-	// 			withCredentials: true,
-	// 		})
-	// 		.then((res) => {
-	// 			if (res.data.googleLogin) {
-	// 				navigate('/dashboard');
-	// 			}
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err);
-	// 		});
-	// }, [navigate]);
 
 	return (
 		<>
@@ -155,12 +121,7 @@ export default function SignUp() {
 							Have you already an Account? <Link to='/login'>Login</Link>{' '}
 						</p>
 					</form>
-					{/* <button
-						type='button'
-						className='btn btn-default border w-100 text-decoration-none'
-						onClick={handleGoogleLogin}>
-						Login with your Google account
-					</button> */}
+					
 				</div>
 			</div>
 		</>
