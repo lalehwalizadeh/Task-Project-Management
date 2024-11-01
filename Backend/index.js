@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 5000;
 
 // create redis client:
 const redisStore = connectRedis(session);
-const redisCliet = redis.createClient({ host: 'https://task-project-management.onrender.com', port: PORT });
+const redisCliet = redis.createClient({ host: 'https://task-project-management.vercel.app', port: PORT });
 
 // Managing redis Error:
 redisCliet.on('error', (err) => {
