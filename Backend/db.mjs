@@ -10,7 +10,7 @@ const db = new pg.Client({
 	password: process.env.PASSWORD,
 	port: 5432,
 	ssl: {
-        rejectUnauthorized: false, // Set this to false for development; use true in production with a trusted certificate.
+        rejectUnauthorized: true, // Set this to false for development; use true in production with a trusted certificate.
     },
 }
 
