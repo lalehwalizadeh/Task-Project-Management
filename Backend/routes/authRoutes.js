@@ -1,6 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import passport from 'passport';
+import passport, { session } from 'passport';
 import db from '../db.mjs';
 
 const router = express.Router();
@@ -26,6 +26,14 @@ router.get('/dashboard', checkAuth, (req, res) => {
 	}
 });
 
+// Route to check if the user is saved in the session
+router.get('/check-session', (req, res) => {
+	if (req.session.user) {
+		return res.json({session:true,user:req.session.user})
+	} else {
+		return res.json({session: false})
+	}
+})
 // Registration
 router.post('/signup', async (req, res) => {
 	const { email, name, password } = req.body;
@@ -56,12 +64,14 @@ router.post('/login', async (req, res) => {
 	const { email, password } = req.body;
 
 	try {
-		const result = await db.query('SELECT * FROM users WHERE email = $1', [email,]);
+		const result = await db.query('SELECT * FROM users WHERE email = $1', [
+			email,
+		]);
 
 		if (result.rows.length > 0) {
 			const user = result.rows[0];
 			const isMatch = await bcrypt.compare(password, user.password);
-console.log('is there any user in session?',req.session.user);
+			console.log('is there any user in session?', req.session.user);
 			if (isMatch) {
 				req.session.user = {
 					id: user.id,
