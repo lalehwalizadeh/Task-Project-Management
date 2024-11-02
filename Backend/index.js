@@ -39,7 +39,7 @@ app.use(
 		cookie: {
 			secure: true,
 			sameSite: 'none',
-			maxAge: 240 * 60 * 60 *1000, // 48 hours
+			maxAge: 48 * 60 * 60 *1000, // 48 hours
 			domain: 'https://task-project-management.vercel.app',
 			httpOnly:true,
 		},
