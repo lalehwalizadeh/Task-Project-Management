@@ -31,8 +31,10 @@ export default function Header({ searchTask, setSearchTask }) {
 			}
 		};
 		checkAuth();
-	}, [navigate]);
+	}, [navigate]); //dependecy array to return effect if navigate changes
 
+
+	//function to handle user logout
 	const handleLogout = async () => {
 		const confirmLogout = window.confirm('Are you sure you want to Log out?');
 		if (confirmLogout) {

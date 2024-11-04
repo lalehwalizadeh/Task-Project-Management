@@ -6,14 +6,18 @@ import './Styles/Form.css';
 import SignupValidation from './SignupValidation';
 import axios from 'axios';
 
+
+//Sign up component for user registration
 export default function SignUp() {
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
 		password: '',
 	});
+
 	const navigate = useNavigate();
-	const [errors, setErrors] = useState({});
+
+	const [errors, setErrors] = useState({}); // State for validation errors
 	const [visible, setVisible] = useState(false);
 
 	const handleInput = (event) => {
@@ -25,9 +29,10 @@ export default function SignUp() {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const validationError = SignupValidation(formData);
-		setErrors(validationError);
+		const validationError = SignupValidation(formData); // Validate form date
+		setErrors(validationError); // update errors state
 
+		// Proceed if there are no validation
 		if (
 			!validationError.name &&
 			!validationError.email &&

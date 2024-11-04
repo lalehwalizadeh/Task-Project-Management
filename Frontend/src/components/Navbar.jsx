@@ -9,6 +9,8 @@ import {MdTaskAlt} from 'react-icons/md'
 import { LuLogIn } from 'react-icons/lu';
 import {SiGnuprivacyguard} from 'react-icons/si'
 
+
+//define the routes and thier associated icons for the navbar
 const nav_routes = [
 	{
 		path: '/',
@@ -39,11 +41,13 @@ const nav_routes = [
 ];
 
 export default function Navbar() {
-	const [isOpen, setIsOpen] = useState(window.innerWidth>768);
+	// Satate to control visibility of navbar
+	const [isOpen, setIsOpen] = useState(window.innerWidth>768); // open if screen width is greater than 768px
 	const toggle = () => {
 		setIsOpen(!isOpen)
 	}
 	
+	// effect to handle window resizng
 	useEffect(() => {
 		const handleResize = () => {
 			if (window.innerWidth <= 768) {
@@ -52,8 +56,8 @@ export default function Navbar() {
 				setIsOpen(true)
 			}
 		}
-		window.addEventListener('resize', handleResize);
-		handleResize();
+		window.addEventListener('resize', handleResize); // Listen for window resize events
+		handleResize(); // initialize the state based on the current window size
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		}

@@ -14,17 +14,17 @@ export default function Login() {
 		password: '',
 	});
 
-	const navigate = useNavigate();
-	const [errors, setErrors] = useState({});
-	const [visible, setVisible] = useState(false);
+	const navigate = useNavigate(); // Hook to navigate programmaticaclly
+	const [errors, setErrors] = useState({}); // state to hold validation errors
+	const [visible, setVisible] = useState(false); // state to toggle password visibility
 
 	const handleInput = (event) => {
 		setFormData((prev) => ({
 			...prev,
-			[event.target.name]: event.target.value,
+			[event.target.name]: event.target.value, //update the corresponding field in formData
 		}));
 	};
-
+// check if user is already logged in on component mount
 	useEffect(() => {
 		axios
 			.get('https://task-project-management-2.onrender.com/dashboard',{withCredentials:true})
@@ -36,6 +36,7 @@ export default function Login() {
 			.catch((err) => console.log(err));
 	}, [navigate]);
 
+	// handle form submission
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const validationError = LoginValidation(formData);

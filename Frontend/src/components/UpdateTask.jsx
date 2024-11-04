@@ -6,9 +6,11 @@ import '../components/Styles/CreateTask.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 export default function UpdateTask(props) {
+	// Get the task id from the URL parameters
 	const { id } = useParams();
+	// State to hold values for the task
 	const [values, setValues] = useState({
-		id: id,
+		id: id, // set the task id 
 		name: '',
 		date: '',
 		type: '',
@@ -16,13 +18,14 @@ export default function UpdateTask(props) {
 		image: null,
 	});
 
+	// fetch the task details when the component mounts
 	useEffect(() => {
 		axios
 			.get(`https://task-project-management-2.onrender.com/task/${id}`)
 			.then((res) => {
 				const dueDate = new Date(res.data.due_date);
 				const formattedDate = dueDate.toISOString().split('T')[0];
-
+// update state with the fetch task data
 				setValues({
 					name: res.data.title || '',
 					date: formattedDate || '',
@@ -32,7 +35,7 @@ export default function UpdateTask(props) {
 				});
 			})
 			.catch((err) => console.log(err));
-	}, [id]);
+	}, [id]); // Dependency array ensures this runswhen 'id changes
 
 	const handleInputChange = (e) => {
 		const { name, value, files } = e.target;
@@ -44,6 +47,7 @@ export default function UpdateTask(props) {
 				[name]: e.target.options[e.target.selectedIndex].text,
 			});
 		} else {
+			//For other inputs, update the corresponding state value
 			setValues({ ...values, [name]: value });
 		}
 	};
@@ -53,10 +57,11 @@ export default function UpdateTask(props) {
 		e.preventDefault();
 		const formData = new FormData();
 		console.log('submiting form data', formData);
-		Object.keys(values).forEach((key) => {
+
+		Object.keys(values).forEach((key) => { // Append values to FormData obj for submission
 			formData.append(key, values[key]);
 		});
-		try {
+		try { // send patch request to update tha task
 			await axios.patch(`https://task-project-management-2.onrender.com/update/${id}`, formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
 			});
