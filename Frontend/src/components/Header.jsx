@@ -7,10 +7,13 @@ import './Styles/Header.css';
 import { FaSearch, FaAngleUp, FaAngleDown } from 'react-icons/fa';
 
 export default function Header({ searchTask, setSearchTask }) {
+
+	//State to hold the username and  dropdwon visibility 
 	const [name, setName] = useState('');
 	const [isOpenSetting, setIsOpenSetting] = useState(false);
 	const navigate = useNavigate();
 
+	// Enable sending cookies with requests
 	axios.defaults.withCredentials = true;
 
 	useEffect(() => {
