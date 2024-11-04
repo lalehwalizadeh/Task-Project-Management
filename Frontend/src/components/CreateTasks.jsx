@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Styles/CreateTask.css';
 import './Styles/Dashboard.css';
 import axios from 'axios';
@@ -18,7 +18,6 @@ export default function CreateTask() {
 	const [searchTask, setSearchTask] = useState('');
 	const [isCompleted, setIsCompleted] = useState({});
 
-	const navigate = useNavigate();
 
 	// state for new task input
 	const [newTask, setNewTask] = useState({
@@ -38,34 +37,19 @@ export default function CreateTask() {
 	axios.defaults.withCredentials = true;
 
 
-	axios.interceptors.request.use(
-		config => {
-			const token = localStorage.getItem('token');
-			if (token) {
-				config.headers.Authorization = `Bearer ${token}`
-			}
-			return config;
-		},
-		error => {
-			return Promise.reject(error)
-		}
-	)
 	// function to fetch tasks from the server
 	const fetchTasks = async () => {
 		try {
-			const token = localStorage.getItem('token');
 
 			const response = await axios.get(
 				'https://task-project-management-2.onrender.com//tasks',
 				{
 					withCredentials: true, // Important for sending cookies
-				},{headers: {Authorization:`Bearer ${token}`}}
+				}
 			);
 			setTasks(response.data);
 		} catch (error) {
-			if (error.response.status === 401) {
-				localStorage.removeItem('token')
-			}
+			console.log(error);
 		}
 	};
 	// handle chandes in input fields
@@ -92,13 +76,12 @@ export default function CreateTask() {
 			formData.append(key, newTask[key]);
 		});
 		try {
-			const token = localStorage.getItem('token');
 
 			await axios.post(
 				'https://task-project-management-2.onrender.com//submit/task',
 				formData,
 				{
-					headers: { 'Content-type': 'multipart/form-data','Authorization':`Bearer ${token}` },
+					headers: { 'Content-type': 'multipart/form-data' },
 				}
 			);
 
@@ -107,12 +90,6 @@ export default function CreateTask() {
 		} catch (err) {
 			console.error('task rout error:', err);
 		}
-		const token = localStorage.getItem('token');
-		if (!token) {
-		navigate('/login')
-			return false;
-		}
-		return true;
 	
 	};
 

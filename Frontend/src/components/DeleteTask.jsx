@@ -13,7 +13,7 @@ export default function DeleteTask(props) {
 
 	const confirmDeleteTask = async () => {
 		try {
-			await axios.delete(`https://task-project-management-2.onrender.com//delete/task/${props.task.id}`);
+			await axios.delete(`https://task-project-management-2.onrender.com/delete/task/${props.task.id}`);
 			setConfirmDelete(false);
 			props.onDelete(props.task.id); // Call the onDelete prop to update parent component
 			toast.error('Task deleted successfully!', { autoClose: 2000 });

@@ -7,25 +7,13 @@ import { dirname } from 'path';
 import path from 'path';
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET_PASSKEY;
 // middleware to check if user is authenticated
 
 const checkAuth = (req, res, next) => {
-	try {
-		const token = req.headers.authorization?.split('')[1];
-		if (token) {
-			const decoded = jwt.verify(token, JWT_SECRET);
-			req.userData = decoded;
-			return next();
-		}
-
-		if (!req.session.user) {
-			return res.status(401).json({ message: 'Unauthorized' });
-		}
-		next();
-	} catch (err) {
+	if (!req.session.user) {
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
+	next();
 };
 // upload and display img:
 
@@ -54,7 +42,8 @@ router.use('/uploads', express.static(uploadsDir));
 // difine routes:
 router.get('/tasks', checkAuth, async (req, res) => {
 	try {
-		const userId = req.userData ? req.userData.userId : req.session.user.id;
+		// const userId = req.userData ? req.userData.userId : req.session.user.id;
+		const userId = req.session.user.id;
 		const result = await db.query('SELECT * FROM tasks WHERE user_id = $1', [
 			userId,
 		]);
@@ -73,7 +62,7 @@ router.post(
 	async (req, res) => {
 		try {
 			const { name, date, type, description } = req.body;
-			const userId = req.userData ? req.userData.userId : req.session.user.id;
+			const userId = req.session.user.id;
 			// Get user id from the session
 			const imageUrl = req.file
 				? '../uploads/' + req.file.filename
@@ -95,7 +84,7 @@ router.post(
 // Get a specific task by id
 router.get('/task/:id', checkAuth, async (req, res) => {
 	const { id } = req.params; // get task id from the request parameters
-	const userId = req.userData ? req.userData.userId : req.session.user.id;
+	const userId = req.session.user.id;
 
 	try {
 		const result = await db.query(

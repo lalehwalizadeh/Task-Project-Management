@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 const saltRound = 10;
-const JWT_SECRET = process.env.JWT_SECRET_PASSKEY; 
+const JWT_SECRET = process.env.AWS_ACCESS_KEY_ID; 
 
 
 const checkAuth = (req, res, next) => {
