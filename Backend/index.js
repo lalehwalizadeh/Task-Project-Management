@@ -55,18 +55,8 @@ app.use(passport.initialize());
 // use session for authentication state
 app.use(passport.session());
 // define routes for authentication and tasks
-app.use((req, res, next) => {
-	const token = req.headers.authorization.split('')[1];
-	if (token) {
-		try {
-			const decoded = jwt.verify(token, process.env.AWS_ACCESS_KEY_ID);
-			req.userData = decoded;
-		} catch (err) {
-			console.log(err);
-		}
-	}
-	next();
-});
+
+
 app.use('/', authRoutes);
 app.use('/', taskRoutes);
 
