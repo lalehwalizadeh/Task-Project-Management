@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import session from 'passport';
+// import session from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
