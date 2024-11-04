@@ -5,17 +5,19 @@ import db from '../db.mjs';
 const router = express.Router();
 const saltRound = 10;
 
+// middleware to check if user is authenticated
 const checkAuth = (req, res, next) => {
 	if (!req.session.user || !req.session) {
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
-	next();
+	next(); // Proced to the next middleware or route handler
 };
 
+// routr to get user dashboard info
 router.get('/dashboard', checkAuth, (req, res) => {
 	if (req.session.user && req.session) {
 		return res.json({
-			valid: true,
+			valid: true, // user is authenticated
 			username: req.session.user.name,
 			email: req.session.user.email,
 			userId: req.session.user.id,
@@ -28,12 +30,12 @@ router.get('/dashboard', checkAuth, (req, res) => {
 // Route to check if the user is saved in the session
 router.get('/check-session', (req, res) => {
 	if (req.session.user) {
-		return res.json({session:true,user:req.session.user})
+		return res.json({ session: true, user: req.session.user });
 	} else {
-		return res.json({session: false})
+		return res.json({ session: false });
 	}
-})
-// Registration
+});
+//user registration route
 router.post('/signup', async (req, res) => {
 	const { email, name, password } = req.body;
 
@@ -58,19 +60,20 @@ router.post('/signup', async (req, res) => {
 	}
 });
 
-// Login
+//user Login route
 router.post('/login', async (req, res) => {
 	const { email, password } = req.body;
-
+	// check if the user is exists in database
 	try {
 		const result = await db.query('SELECT * FROM users WHERE email = $1', [
 			email,
 		]);
 
 		if (result.rows.length > 0) {
-			const user = result.rows[0];
+			const user = result.rows[0]; // get the user data
 			const isMatch = await bcrypt.compare(password, user.password);
 			console.log('is there any user in session?', req.session.user);
+			// sava user information to session
 			if (isMatch) {
 				req.session.user = {
 					id: user.id,
@@ -83,6 +86,7 @@ router.post('/login', async (req, res) => {
 						return res.status(500).json({ message: 'Session Error' });
 					}
 				});
+				// successful login
 				return res.json({ Login: true });
 			}
 			return res.json({ errMessage: true });
@@ -94,9 +98,9 @@ router.post('/login', async (req, res) => {
 	}
 });
 
-
 // Logout route
 router.get('/logout', (req, res) => {
+	// Destroy the session after logout
 	req.session.destroy((err) => {
 		if (err) {
 			console.log(err);

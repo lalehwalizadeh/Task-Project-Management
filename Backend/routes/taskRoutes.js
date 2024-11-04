@@ -8,6 +8,8 @@ import path from 'path';
 
 const router = express.Router();
 
+// middleware to check if user is authenticated
+
 const checkAuth = (req, res, next) => {
 	if (!req.session.user) {
 		return res.status(401).json({ message: 'Unauthorized' });
@@ -52,6 +54,7 @@ router.get('/tasks', checkAuth, async (req, res) => {
 	}
 });
 
+// Route for submit new task
 router.post(
 	'/submit/task',
 	checkAuth,
@@ -59,11 +62,12 @@ router.post(
 	async (req, res) => {
 		try {
 			const { name, date, type, description } = req.body;
-			const userId = req.session.user.id;
+			const userId = req.session.user.id; // Get user id from the session
 			const imageUrl = req.file
 				? '../uploads/' + req.file.filename
 				: '../uploads/placeholder.jpg';
 
+			// insert new task to the database 
 			await db.query(
 				'INSERT INTO tasks(title, description, image, type, due_date,user_id) VALUES ($1, $2, $3, $4, $5,$6)',
 				[name, description, imageUrl, type, date, userId]
@@ -75,8 +79,10 @@ router.post(
 		}
 	}
 );
+
+// Get a specific task by id
 router.get('/task/:id',checkAuth, async (req, res) => {
-	const { id } = req.params;
+	const { id } = req.params;  // get task id from the request parameters
 	const userId = req.session.user.id;
 	try {
 		const result = await db.query(
@@ -84,7 +90,7 @@ router.get('/task/:id',checkAuth, async (req, res) => {
 			[id, userId]
 		);
 		if (result.rows.length > 0) {
-			res.json(result.rows[0]);
+			res.json(result.rows[0]); // Respond with the task details if found
 		} else {
 			res.status(404).json({ message: 'Task not found!' });
 
@@ -94,7 +100,7 @@ router.get('/task/:id',checkAuth, async (req, res) => {
 	}
 });
 
-// updating task
+// updating task by specific task by id
 router.patch('/update/:id',checkAuth, upload.single('file'), async (req, res) => {
 	const { id } = req.params;
 	const { name, date, type, description } = req.body;
