@@ -7,13 +7,15 @@ import { toast } from 'react-toastify';
 import './Styles/CreateTask.css';
 
 export default function DeleteTask(props) {
+
+	//Satae to manage confirmation of deletion
 	const [confirmDelete, setConfirmDelete] = useState(false);
 
 	const confirmDeleteTask = async () => {
 		try {
 			await axios.delete(`https://task-project-management-2.onrender.com//delete/task/${props.task.id}`);
 			setConfirmDelete(false);
-			props.onDelete(props.task.id);
+			props.onDelete(props.task.id); // Call the onDelete prop to update parent component
 			toast.error('Task deleted successfully!', { autoClose: 2000 });
 		} catch (err) {
 			console.log(err);

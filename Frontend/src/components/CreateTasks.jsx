@@ -11,14 +11,14 @@ import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import { createPortal } from 'react-dom';
 import { TbEdit } from 'react-icons/tb';
 
-
 export default function CreateTask() {
+	// State variables for managing tasks and modal visibility
 	const [tasks, setTasks] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [searchTask, setSearchTask] = useState('');
 	const [isCompleted, setIsCompleted] = useState({});
 
-	
+	// state for new task input
 	const [newTask, setNewTask] = useState({
 		name: '',
 		date: '',
@@ -26,22 +26,28 @@ export default function CreateTask() {
 		description: '',
 		image: null,
 	});
+
+	// fetch tasks on component mount
 	useEffect(() => {
 		fetchTasks();
 	}, []);
+
+	// Configure axios to send cookies with requests
 	axios.defaults.withCredentials = true;
+
+	// function to fetch tasks from the server
 	const fetchTasks = async () => {
 		try {
-			const response = await axios.get('https://task-project-management-2.onrender.com//tasks', {
-				withCredentials: true // Important for sending cookies
-			});
+			const response = await axios.get(
+				'https://task-project-management-2.onrender.com//tasks',
+				{
+					withCredentials: true, // Important for sending cookies
+				}
+			);
 			setTasks(response.data);
-		} catch (error) {
-			
-		}
-
+		} catch (error) {}
 	};
-
+	// handle chandes in input fields
 	const handleInputChange = (e) => {
 		const { name, value, files } = e.target;
 		if (name === 'file') {
@@ -55,6 +61,8 @@ export default function CreateTask() {
 			setNewTask({ ...newTask, [name]: value });
 		}
 	};
+
+	// handle form submission to create a new task
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const formData = new FormData();
@@ -63,9 +71,13 @@ export default function CreateTask() {
 			formData.append(key, newTask[key]);
 		});
 		try {
-			await axios.post('https://task-project-management-2.onrender.com//submit/task', formData, {
-				headers: { 'Content-type': 'multipart/form-data' },
-			});
+			await axios.post(
+				'https://task-project-management-2.onrender.com//submit/task',
+				formData,
+				{
+					headers: { 'Content-type': 'multipart/form-data' },
+				}
+			);
 
 			fetchTasks();
 			setIsModalOpen(false);
@@ -73,12 +85,16 @@ export default function CreateTask() {
 			console.error('task rout error:', err);
 		}
 	};
+
+	// filter task based on search input
 	const filteredTask = tasks.filter((task) => {
 		const matchesSearch = task.title
 			.toLowerCase()
 			.includes(searchTask.toLowerCase());
 		return matchesSearch;
 	});
+
+	// function to determine bg color based on task type
 	const typeColor = (type) => {
 		switch (type) {
 			case 'Low':
@@ -92,13 +108,14 @@ export default function CreateTask() {
 		}
 	};
 
+	// Toggle completion status of task
 	const toggleCompletion = (taskId) => {
 		setIsCompleted((prev) => ({ ...prev, [taskId]: !prev[taskId] }));
 	};
-
+	// handle task deletion
 	const handleDeleteTask = (taskId) => {
-		setTasks((prevTask)=>prevTask.filter(task=>task.id!==taskId))
-	}
+		setTasks((prevTask) => prevTask.filter((task) => task.id !== taskId));
+	};
 	return (
 		<>
 			<Header searchTask={searchTask} setSearchTask={setSearchTask} />
@@ -111,65 +128,58 @@ export default function CreateTask() {
 							<IoMdAddCircleOutline style={{ fontSize: '1.5rem' }} />
 							New
 						</button>
-
-					
 					</div>
-					
 				</div>
 			</div>
 			<div className='task-container'>
 				{filteredTask.map((task) => (
-				
-						
-							<div key={task.id} className='task-card shadow '>
-								<img
-									className='task-img'
-									src={`https://task-project-management-2.onrender.com//uploads/${task.image}`}
-									alt={task.name || 'task Image'}
-								/>
-								<h6 className='task-title'>{task.title}</h6>
-								<p> {task.description}</p>
-								<p>
-									{new Date(task.due_date).toLocaleDateString('en-US', {
-										year: 'numeric',
-										month: '2-digit',
-										day: '2-digit',
-									})}
-								</p>
-								<div className='task-btn-container'>
-									<p className='task-type' style={typeColor(task.type)}>
-										{task.type}{' '}
-									</p>
+					<div key={task.id} className='task-card shadow '>
+						<img
+							className='task-img'
+							src={`https://task-project-management-2.onrender.com//uploads/${task.image}`}
+							alt={task.name || 'task Image'}
+						/>
+						<h6 className='task-title'>{task.title}</h6>
+						<p> {task.description}</p>
+						<p>
+							{new Date(task.due_date).toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: '2-digit',
+								day: '2-digit',
+							})}
+						</p>
+						<div className='task-btn-container'>
+							<p className='task-type' style={typeColor(task.type)}>
+								{task.type}{' '}
+							</p>
 
-									<div className='edit-delete-icons'>
-										{/* compelet ||incompelet */}
+							<div className='edit-delete-icons'>
+								{/* compelet ||incompelet */}
 
-										<button
-											className={` status-box ${
-												isCompleted[task.id] ? 'completed' : ''
-											}`}
-											onClick={() => toggleCompletion(task.id)}>
-											{isCompleted[task.id] ? (
-												<>
-													<IoCheckmarkDoneSharp style={{ color: 'green' }} />{' '}
-													Done
-												</>
-											) : (
-												'Todo'
-											)}
-										</button>
+								<button
+									className={` status-box ${
+										isCompleted[task.id] ? 'completed' : ''
+									}`}
+									onClick={() => toggleCompletion(task.id)}>
+									{isCompleted[task.id] ? (
+										<>
+											<IoCheckmarkDoneSharp style={{ color: 'green' }} /> Done
+										</>
+									) : (
+										'Todo'
+									)}
+								</button>
 
-										{/* <EditTask /> */}
-										<Link to={`/update/${task.id}`}>
-											<TbEdit style={{ color: '#0077B6' }} />
-										</Link>
-										{/* Delete task */}
+								{/* <EditTask /> */}
+								<Link to={`/update/${task.id}`}>
+									<TbEdit style={{ color: '#0077B6' }} />
+								</Link>
+								{/* Delete task */}
 
-										<DeleteTask task={task} onDelete={handleDeleteTask} />
-									</div>
-								</div>
+								<DeleteTask task={task} onDelete={handleDeleteTask} />
 							</div>
-					
+						</div>
+					</div>
 				))}
 				{isModalOpen &&
 					createPortal(

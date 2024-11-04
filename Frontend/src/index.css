@@ -5,20 +5,7 @@
 	--primary-white: #f8f8f8;
 	--pure-white: #ffffff;
 	--dark-blue: #181d31;
-	/* old colors */
-	/* --meduim-color: #8ccbe3;
-	--main-color: #70788d;
-	--dark-color: #4d5361;
-	--cod-gray: #121211;
-	--yellow-sea: #fbb204;
-	--medium-purple: #9374db;
-	--affair: #634082;
-	--mischka: #e7e2ea;
-	--spicy-mustard: #846213;
-	--bermuda: #84bcdc;
-	--biloba-flower: #ac98eb;
-	--envy: #94a491;
-} */
+
 }
 * {
 	margin: 0;
@@ -31,8 +18,7 @@
 }
 
 body {
-	/* display: flex; */
-	/* justify-content: center; */
+
 	background-color: var(--primary-white) !important;
 
 	width: 100%;
@@ -48,12 +34,3 @@ p {
 	text-align: justify;
 }
 
-/* @media(max-width:768px){
-	.dashboard-container{
-		flex-direction: column;
-	}
-	.nav-design{
-		height: auto;
-		min-width: 100%;
-	}
-} */
