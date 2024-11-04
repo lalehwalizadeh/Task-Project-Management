@@ -7,14 +7,25 @@ import { dirname } from 'path';
 import path from 'path';
 
 const router = express.Router();
-
+const JWT_SECRET = process.env.JWT_SECRET_PASSKEY;
 // middleware to check if user is authenticated
 
 const checkAuth = (req, res, next) => {
-	if (!req.session.user) {
+	try {
+		const token = req.headers.authorization?.split('')[1];
+		if (token) {
+			const decoded = jwt.verify(token, JWT_SECRET);
+			req.userData = decoded;
+			return next();
+		}
+
+		if (!req.session.user) {
+			return res.status(401).json({ message: 'Unauthorized' });
+		}
+		next();
+	} catch (err) {
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
-	next();
 };
 // upload and display img:
 
@@ -43,7 +54,7 @@ router.use('/uploads', express.static(uploadsDir));
 // difine routes:
 router.get('/tasks', checkAuth, async (req, res) => {
 	try {
-		const userId = req.session.user.id;
+		const userId = req.userData ? req.userData.userId : req.session.user.id;
 		const result = await db.query('SELECT * FROM tasks WHERE user_id = $1', [
 			userId,
 		]);
@@ -62,12 +73,13 @@ router.post(
 	async (req, res) => {
 		try {
 			const { name, date, type, description } = req.body;
-			const userId = req.session.user.id; // Get user id from the session
+			const userId = req.userData ? req.userData.userId : req.session.user.id;
+			// Get user id from the session
 			const imageUrl = req.file
 				? '../uploads/' + req.file.filename
 				: '../uploads/placeholder.jpg';
 
-			// insert new task to the database 
+			// insert new task to the database
 			await db.query(
 				'INSERT INTO tasks(title, description, image, type, due_date,user_id) VALUES ($1, $2, $3, $4, $5,$6)',
 				[name, description, imageUrl, type, date, userId]
@@ -81,9 +93,10 @@ router.post(
 );
 
 // Get a specific task by id
-router.get('/task/:id',checkAuth, async (req, res) => {
-	const { id } = req.params;  // get task id from the request parameters
-	const userId = req.session.user.id;
+router.get('/task/:id', checkAuth, async (req, res) => {
+	const { id } = req.params; // get task id from the request parameters
+	const userId = req.userData ? req.userData.userId : req.session.user.id;
+
 	try {
 		const result = await db.query(
 			'SELECT* FROM tasks WHERE id = $1 AND user_id =$2',
@@ -93,7 +106,6 @@ router.get('/task/:id',checkAuth, async (req, res) => {
 			res.json(result.rows[0]); // Respond with the task details if found
 		} else {
 			res.status(404).json({ message: 'Task not found!' });
-
 		}
 	} catch (err) {
 		console.log(err);
@@ -101,22 +113,27 @@ router.get('/task/:id',checkAuth, async (req, res) => {
 });
 
 // updating task by specific task by id
-router.patch('/update/:id',checkAuth, upload.single('file'), async (req, res) => {
-	const { id } = req.params;
-	const { name, date, type, description } = req.body;
-	try {
-		const imageUrl = req.file ? '../uploads/' + req.file.filename : null; //keep existing image if no new file is uploaded
-		await db.query(
-			`UPDATE tasks SET title = $1,description =$2,type=$3,due_date=$4,image =COALESCE($5,image)WHERE id = $6`,
-			[name, description, type, date, imageUrl, id]
-		);
-		res.status(200).json({ message: 'task updated!' });
-	} catch {
-		(err) => {
-			console.log(err);
-		};
+router.patch(
+	'/update/:id',
+	checkAuth,
+	upload.single('file'),
+	async (req, res) => {
+		const { id } = req.params;
+		const { name, date, type, description } = req.body;
+		try {
+			const imageUrl = req.file ? '../uploads/' + req.file.filename : null; //keep existing image if no new file is uploaded
+			await db.query(
+				`UPDATE tasks SET title = $1,description =$2,type=$3,due_date=$4,image =COALESCE($5,image)WHERE id = $6`,
+				[name, description, type, date, imageUrl, id]
+			);
+			res.status(200).json({ message: 'task updated!' });
+		} catch {
+			(err) => {
+				console.log(err);
+			};
+		}
 	}
-});
+);
 
 // Deleting task
 

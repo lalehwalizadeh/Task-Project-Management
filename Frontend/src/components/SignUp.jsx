@@ -41,6 +41,9 @@ export default function SignUp() {
 			try {
 				const res = await axios.post('https://task-project-management-2.onrender.com/signup', formData);
 				if (res.data.Signup) {
+					localStorage.setItem('token', res.data.token);
+					axios.defaults.headers.common['Authorization']=`Bearer ${res.data.token}`
+					
 					navigate('/dashboard');
 				} else {
 					alert('This account already exists');

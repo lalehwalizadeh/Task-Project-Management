@@ -27,6 +27,7 @@ app.use(
 		methods: ['POST', 'GET', 'DELETE', 'PUT', 'PATCH'],
 		credentials: true,
 		allowedHeaders: ['Content-Type', 'Authorization'],
+		
 	})
 );
 
@@ -55,6 +56,18 @@ app.use(passport.initialize());
 // use session for authentication state
 app.use(passport.session());
 // define routes for authentication and tasks
+app.use((req, res, next) => {
+	const token = req.headers.authorization.split('')[1];
+	if (token) {
+		try {
+			const decoded = jwt.verify(token, process.env.JWT_SECRET_PASSKEY);
+			req.userData = decoded;
+		} catch (err) {
+			console.log(err);
+		}
+	}
+	next();
+});
 app.use('/', authRoutes);
 app.use('/', taskRoutes);
 

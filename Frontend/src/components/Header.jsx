@@ -19,6 +19,7 @@ export default function Header({ searchTask, setSearchTask }) {
 	useEffect(() => {
 		const checkAuth = async () => {
 			try {
+				
 				const res = await axios.get('https://task-project-management-2.onrender.com/dashboard');
 				if (res.data.valid) {
 					setName(res.data.username);

@@ -8,6 +8,7 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
+
 export default function Login() {
 	const [formData, setFormData] = useState({
 		email: '',
@@ -30,6 +31,7 @@ export default function Login() {
 			.get('https://task-project-management-2.onrender.com/dashboard',{withCredentials:true})
 			.then((res) => {
 				if (res.data.valid) {
+					axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
 					navigate('/dashboard');
 				}
 			})
@@ -45,7 +47,9 @@ export default function Login() {
 			try {
 				const res = await axios.post('https://task-project-management-2.onrender.com/login', formData,{withCredentials:true});
 				if (res.data.Login) {
-					console.log(res.data.Login);
+					localStorage.setItem('token', res.data.token);
+					axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+					
 					navigate('/dashboard');
 				} else {
 					alert(
