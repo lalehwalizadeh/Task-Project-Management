@@ -27,6 +27,7 @@ app.use(
 		methods: ['POST', 'GET', 'DELETE', 'PUT', 'PATCH'],
 		credentials: true,
 		allowedHeaders: ['Content-Type', 'Authorization'],
+		exposedHeaders:['set-cookie']
 	})
 );
 
@@ -47,7 +48,9 @@ app.use(
 			maxAge: 48 * 60 * 60 * 1000, // 48 hours
 			domain: 'task-project-management.vercel.app',
 			httpOnly: true,
+			path:'/'
 		},
+		name:'sessionId'
 	})
 );
 // initialize passport for authentication
