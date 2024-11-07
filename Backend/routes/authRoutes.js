@@ -12,12 +12,12 @@ const generateToken = (user) => {
 	return jwt.sign(
 		{ id: user.id, email: user.email, name: user.name },
 		process.env.AWS_ACCESS_KEY_ID,
-		{ expireIn: '48h' }
+		{ expiresIn: '48h' }
 	);
 };
 // middleware to check if user is authenticated
 const checkAuth = (req, res, next) => {
-	const token = req.cookie.token;
+	const token = req.cookies.token;
 	if (!token) {
 		return res.status(401).json({ message: 'Unauthorized' });
 	}

@@ -44,7 +44,7 @@ export default function Login() {
 		setErrors(validationError);
 		if (!validationError.email && !validationError.password) {
 			try {
-				const res = await axios.post('https://task-project-management-2.onrender.com/login', formData);
+				const res = await axios.post('https://task-project-management-2.onrender.com/login', formData ,{withCredentials:true ,headers:{'Content-type' :'application/json'}},);
 				if (res.data.Login) {
 					
 					navigate('/dashboard');
