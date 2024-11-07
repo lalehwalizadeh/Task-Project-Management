@@ -39,8 +39,8 @@ app.use(cookieParser());
 app.use(
 	session({
 		secret: process.env.AWS_ACCESS_KEY_ID,
-		resave: true,
-		saveUninitialized: true,
+		resave: false,
+		saveUninitialized: false,
 		proxy: true,
 		cookie: {
 			secure: true,

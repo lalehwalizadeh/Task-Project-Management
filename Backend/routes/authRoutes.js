@@ -32,16 +32,14 @@ const checkAuth = (req, res, next) => {
 
 // routr to get user dashboard info
 router.get('/dashboard', checkAuth, (req, res) => {
-	if (req.session.user && req.session) {
+	
 		return res.json({
 			valid: true, // user is authenticated
-			username: req.session.user.name,
-			email: req.session.user.email,
-			userId: req.session.user.id,
+			username: req.user.name,
+			email: req.user.email,
+			userId: req.user.id,
 		});
-	} else {
-		return res.json({ valid: false });
-	}
+
 });
 
 // Route to check if the user is saved in the session
@@ -132,6 +130,8 @@ router.get('/logout', (req, res) => {
 			console.log(err);
 			return res.json({ Logout: false });
 		}
+		//remove cookie
+		res.clearCookie('token')
 		res.json({ Logout: true });
 	});
 });
