@@ -1,17 +1,33 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import db from '../db.mjs';
-
+import jwt from 'jsonwebtoken';
+import env from 'dotenv';
 
 const router = express.Router();
 const saltRound = 10;
 
+// JWT token generator
+const generateToken = (user) => {
+	return jwt.sign(
+		{ id: user.id, email: user.email, name: user.name },
+		process.env.AWS_ACCESS_KEY_ID,
+		{ expireIn: '48h' }
+	);
+};
 // middleware to check if user is authenticated
 const checkAuth = (req, res, next) => {
-	if (!req.session.user || !req.session) {
+	const token = req.cookie.token;
+	if (!token) {
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
-	next(); // Proced to the next middleware or route handler
+	try {
+		const decoded = jwt.verify(token, process.env.AWS_ACCESS_KEY_ID);
+		req.user = decoded;
+		next(); // Proced to the next middleware or route handler
+	} catch (err) {
+		res.status(401).json({ message: 'Invalid token' });
+	}
 };
 
 // routr to get user dashboard info
@@ -76,14 +92,25 @@ router.post('/login', async (req, res) => {
 			console.log('is there any user in session?', req.session.user);
 			// sava user information to session
 			if (isMatch) {
-				const name = data[0].name;
-				const token = jwt.sign({name},'secret-key',{expireIn:'1d'})
-				res.cookie('token', token);
+				//Generate JWT token
+				const token = generateToken(user);
+				//save user in session
 				req.session.user = {
 					id: user.id,
 					name: user.name,
 					email: user.email,
 				};
+				//set cookie options
+				const cookieOptions = {
+					httpOnly: true,
+					secure: true,
+					sameSite: 'none',
+					maxAge: 1000 * 60 * 60 * 48,
+					domain: '.vercel.app',
+					path: '/',
+				};
+				//set cookie
+				res.cookie('token', cookieOptions);
 				req.session.save((err) => {
 					if (err) {
 						console.log('session save err', err);
@@ -91,7 +118,10 @@ router.post('/login', async (req, res) => {
 					}
 				});
 				// successful login
-				return res.json({ Login: true });
+				return res.json({
+					Login: true,
+					user: { id: user.id, name: user.name, email: user.email },
+				});
 			}
 			return res.json({ errMessage: true });
 		}

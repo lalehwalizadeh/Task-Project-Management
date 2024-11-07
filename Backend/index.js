@@ -27,6 +27,7 @@ app.use(
 		methods: ['POST', 'GET', 'DELETE', 'PUT', 'PATCH'],
 		credentials: true,
 		allowedHeaders: ['Content-Type', 'Authorization'],
+		exposedHeaders:['set-cookie']
 	})
 );
 
@@ -45,8 +46,9 @@ app.use(
 			secure: true,
 			sameSite: 'none',
 			maxAge: 48 * 60 * 60 * 1000, // 48 hours
-			domain: 'task-project-management.vercel.app',
+			domain: '.vercel.app',
 			httpOnly: true,
+			path:'/',
 		},
 	})
 );
@@ -54,9 +56,22 @@ app.use(
 app.use(passport.initialize());
 // use session for authentication state
 app.use(passport.session());
+
+// middlware for varifying JWT
+const varifyToken = (req, res, next) => {
+	const token = req.cookie.token;
+	if (!token) {
+		return res.status(401).json({message:'No token provided'})
+	}
+	try {
+		const decoded = jwt.verify(token, process.env.AWS_ACCESS_KEY_ID);
+		req.user = decoded;
+		next();
+	} catch (err) {
+		return res.status(401).json({ message: 'Invalid token' });
+	}
+}
 // define routes for authentication and tasks
-
-
 app.use('/', authRoutes);
 app.use('/', taskRoutes);
 
