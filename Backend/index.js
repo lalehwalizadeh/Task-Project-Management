@@ -48,7 +48,7 @@ app.use(
 			maxAge: 48 * 60 * 60 * 1000, // 48 hours
 			domain: '.vercel.app',
 			httpOnly: true,
-			path:'/',
+		
 		},
 	})
 );
