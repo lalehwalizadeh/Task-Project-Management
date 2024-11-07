@@ -20,7 +20,7 @@ export default function Header({ searchTask, setSearchTask }) {
 		const checkAuth = async () => {
 			try {
 				
-				const res = await axios.get('https://task-project-management-2.onrender.com/dashboard');
+				const res = await axios.get('https://task-project-management-2.onrender.com/dashboard',{withCredentials:true ,headers:{'Content-type' :'application/json'}});
 				if (res.data.valid) {
 					setName(res.data.username);
 				} else {

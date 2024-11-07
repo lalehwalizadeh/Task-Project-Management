@@ -42,7 +42,7 @@ export default function CreateTask() {
 		try {
 
 			const response = await axios.get(
-				'https://task-project-management-2.onrender.com//tasks',
+				'https://task-project-management-2.onrender.com/tasks',
 				{
 					withCredentials: true, // Important for sending cookies
 				}
@@ -78,7 +78,7 @@ export default function CreateTask() {
 		try {
 
 			await axios.post(
-				'https://task-project-management-2.onrender.com//submit/task',
+				'https://task-project-management-2.onrender.com/submit/task',
 				formData,
 				{
 					headers: { 'Content-type': 'multipart/form-data' },
