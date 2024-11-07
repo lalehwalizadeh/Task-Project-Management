@@ -80,24 +80,18 @@ router.post('/login', async (req, res) => {
 					name: user.name,
 					email: user.email,
 				};
-				await new Promise((resolve, reject) => {
-					req.session.save((err) => {
-						if (err) {
-							reject(err);
-						}
-						resolve;
-					});
+				req.session.save((err) => {
+					if (err) {
+						console.log('session save err', err);
+						return res.status(500).json({ message: 'Session Error' });
+					}
 				});
-
 				// successful login
-				return res.json({
-					Login: true,
-					user: { id: user.id, name: user.name, email: user.email },
-				});
+				return res.json({ Login: true });
 			}
 			return res.json({ errMessage: true });
 		}
-		return res.json({ Login: false ,message:'user not found'});
+		return res.json({ Login: false });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ Message: 'Server Error' });
