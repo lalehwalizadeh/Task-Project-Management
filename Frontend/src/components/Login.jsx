@@ -22,7 +22,7 @@ export default function Login() {
 	const handleInput = (event) => {
 		setFormData((prev) => ({
 			...prev,
-			[event.target.name]: event.target.value, //update the corresponding field in formData
+			[event.target.name]: event.target.value,  //update the corresponding field in formData
 		}));
 	};
 // check if user is already logged in on component mount

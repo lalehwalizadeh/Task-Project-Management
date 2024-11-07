@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import db from '../db.mjs';
 
+
 const router = express.Router();
 const saltRound = 10;
 
@@ -75,6 +76,9 @@ router.post('/login', async (req, res) => {
 			console.log('is there any user in session?', req.session.user);
 			// sava user information to session
 			if (isMatch) {
+				const name = data[0].name;
+				const token = jwt.sign({name},'secret-key',{expireIn:'1d'})
+				res.cookie('token', token);
 				req.session.user = {
 					id: user.id,
 					name: user.name,
