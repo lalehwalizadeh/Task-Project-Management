@@ -100,17 +100,9 @@ router.post('/login', async (req, res) => {
 					name: user.name,
 					email: user.email,
 				};
-				//set cookie options
-				const cookieOptions = {
-					httpOnly: true,
-					secure: true,
-					sameSite: 'none',
-					maxAge: 1000 * 60 * 60 * 48,
-					domain: '.vercel.app',
-					path: '/',
-				};
+			
 				//set cookie
-				res.cookie('token', cookieOptions);
+				res.cookie('token', token);
 				req.session.save((err) => {
 					if (err) {
 						console.log('session save err', err);

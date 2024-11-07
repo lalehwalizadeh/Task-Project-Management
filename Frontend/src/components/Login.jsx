@@ -28,7 +28,7 @@ export default function Login() {
 // check if user is already logged in on component mount
 	useEffect(() => {
 		axios
-			.get('https://task-project-management-2.onrender.com/dashboard',{withCredentials:true})
+			.get('https://task-project-management-2.onrender.com/dashboard')
 			.then((res) => {
 				if (res.data.valid) {
 					navigate('/dashboard');
@@ -44,7 +44,7 @@ export default function Login() {
 		setErrors(validationError);
 		if (!validationError.email && !validationError.password) {
 			try {
-				const res = await axios.post('https://task-project-management-2.onrender.com/login', formData,{withCredentials:true});
+				const res = await axios.post('https://task-project-management-2.onrender.com/login', formData);
 				if (res.data.Login) {
 					
 					navigate('/dashboard');
