@@ -7,14 +7,23 @@ import { dirname } from 'path';
 import path from 'path';
 
 const router = express.Router();
-// middleware to check if user is authenticated
 
+
+// middleware to check if user is authenticated
 const checkAuth = (req, res, next) => {
-	if (!req.session.user) {
+	const token = req.cookies.token;
+	if (!token) {
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
-	next();
+	try {
+		const decoded = jwt.verify(token, process.env.AWS_ACCESS_KEY_ID);
+		req.user = decoded;
+		next(); // Proced to the next middleware or route handler
+	} catch (err) {
+		res.status(401).json({ message: 'Invalid token' });
+	}
 };
+
 // upload and display img:
 
 const __filename = fileURLToPath(import.meta.url);

@@ -28,7 +28,7 @@ export default function Login() {
 // check if user is already logged in on component mount
 	useEffect(() => {
 		axios
-			.get('https://task-project-management-2.onrender.com/dashboard')
+			.get('https://task-project-management-2.onrender.com/dashboard',)
 			.then((res) => {
 				if (res.data.valid) {
 					navigate('/dashboard');
