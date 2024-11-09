@@ -50,7 +50,7 @@ export default function DeleteTask(props) {
 								onClick={() => {
 									confirmDeleteTask(props.task.id);
 								}}>
-								Delete Task
+								Delete 
 							</button>
 						</div>
 					</Modal>,

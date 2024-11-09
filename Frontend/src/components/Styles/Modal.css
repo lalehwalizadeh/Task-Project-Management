@@ -8,15 +8,26 @@
     align-items: center;
     justify-content: center;
     background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
 }
 
 .mdl{
     border-radius: 5px;
     background-color: white;
     padding:  2rem;
-    width: 32rem;
-  
+    width: 50%;
+    z-index: 1000;
 
+}
+
+@media(max-width:500px){
+    .mdl{
+        width: 300px;
+        z-index: 1000;
+    }
+    .mdl-container{
+        z-index: 1000;
+    }
 }
 
 .close{

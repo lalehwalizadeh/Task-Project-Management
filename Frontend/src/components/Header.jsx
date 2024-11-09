@@ -91,7 +91,7 @@ export default function Header({ searchTask, setSearchTask }) {
 						className='user-profile'
 						alt='user-profile-image'
 					/>
-					<span style={{textTransform:'capitalize',margin:'4px'}}>
+					<span style={{textTransform:'capitalize'}}>
 
 					{name}
 					</span>

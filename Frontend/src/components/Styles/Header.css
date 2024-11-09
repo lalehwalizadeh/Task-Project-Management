@@ -58,7 +58,11 @@
 	padding: 5px;
 	margin: 5px;
 }
-
+@media(max-width:400px){
+	.searchBar-container{
+		width: 100%;
+	}
+}
 .search {
 	display: flex;
 	justify-content: center;
